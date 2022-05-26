@@ -142,7 +142,7 @@ class _HomePageState extends State<HomePage> {
                       ),
                     ),
                     Divider(
-                      height: 10,
+                      height: 12,
                       color: appColorG,
                     ),
                     Padding(
