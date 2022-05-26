@@ -11,4 +11,5 @@ const dashboard = "Dashboard";
 const hello = "Hello..!";
 const userNam = "Ak Naveen Rao";
 //************************************************PreVerificationScreenText */
-const preVerify = "Pre Verification";
+const infor = "Information of Office";
+const selectTheOffice = "Select the office";
