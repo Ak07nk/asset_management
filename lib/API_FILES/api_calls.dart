@@ -91,22 +91,15 @@ class ApiServices {
       input['item[$i][ast_pr_date]'] =
           assestInsertRequests[i].astprdate.toString();
     }
-    log(input.toString());
-    // Map<String, String> imaGe = {};
-    // for (var i = 0; i < assestInsertRequests.length; i++) {
-    //   imaGe['ast_image[]'] = assestInsertRequests[i].astimage.toString();
-    // }
+    log(jsonEncode(input.toString()));
     var request = http.MultipartRequest("POST", assestLink);
     request.headers.addAll(headerSs);
     request.fields.addAll(input);
-    request.files.addAll(
-      List.generate(
-        assestInsertRequests.length,
-        (index) => http.MultipartFile.fromString(
-            'ast_image[]', assestInsertRequests[index].astimage.toString()),
-      ),
-    );
-    debugPrint(assestInsertRequests[0].astimage);
+    for (var i = 0; i < assestInsertRequests.length; i++) {
+      request.files.add(await http.MultipartFile.fromPath(
+          'ast_image[]', assestInsertRequests[i].astimage!));
+      log(jsonEncode(assestInsertRequests[i].astimage.toString()));
+    }
     http.StreamedResponse respond = await request.send();
     if (respond.statusCode == 500) {
       log((respond.reasonPhrase.toString()));

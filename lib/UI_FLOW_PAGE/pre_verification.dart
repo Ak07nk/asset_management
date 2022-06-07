@@ -896,38 +896,36 @@ class _PreVerificationState extends State<PreVerification> {
         children: [
           InkWell(
             onTap: () {
-              if (assestInputtRequest[index - 1].astName == null) {
-                showFlutterTost('Enter the Asset Name');
-              } else if (assestInputtRequest[index - 1].astDesc == null) {
-                showFlutterTost('Enter the Asset Desc');
-              } else if (assestInputtRequest[index - 1].astCat == null) {
-                showFlutterTost('Enter the Asset Cat');
-              } else if (assestInputtRequest[index - 1].astQty == null) {
-                showFlutterTost('Enter the Asset Qty');
-              } else if (assestInputtRequest[index - 1].astCondition == null) {
-                showFlutterTost('Enter the Asset Condition');
-              } else if (assestInputtRequest[index - 1].astRemarks == null) {
-                showFlutterTost('Enter the Asset Remarks');
-              } else if (assestInputtRequest[index - 1].astprdate == null) {
-                showFlutterTost('Enter the Asset Pr Date');
-              } else if (assestInputtRequest[index - 1].astWard == null) {
-                showFlutterTost('Enter the Asset Ward');
-              } else if (assestInputtRequest[index - 1].astimage == null) {
-                showFlutterTost('Upload the photo');
-              } else {
-                apiServices
-                    .assectInsert(assestInputtRequest)
-                    .then((value) async {
-                  debugPrint(value.toString());
-                  if (value["status"] == true) {
-                    showFlutterTost(value['message'].toString());
-                    Navigator.pushNamedAndRemoveUntil(
-                        context, 'HomePage', (route) => false);
-                  } else {
-                    showFlutterTost('Something went wrong');
-                  }
-                });
-              }
+              // if (assestInputtRequest[index - 1].astName == null) {
+              //   showFlutterTost('Enter the Asset Name');
+              // } else if (assestInputtRequest[index - 1].astDesc == null) {
+              //   showFlutterTost('Enter the Asset Desc');
+              // } else if (assestInputtRequest[index - 1].astCat == null) {
+              //   showFlutterTost('Enter the Asset Cat');
+              // } else if (assestInputtRequest[index - 1].astQty == null) {
+              //   showFlutterTost('Enter the Asset Qty');
+              // } else if (assestInputtRequest[index - 1].astCondition == null) {
+              //   showFlutterTost('Enter the Asset Condition');
+              // } else if (assestInputtRequest[index - 1].astRemarks == null) {
+              //   showFlutterTost('Enter the Asset Remarks');
+              // } else if (assestInputtRequest[index - 1].astprdate == null) {
+              //   showFlutterTost('Enter the Asset Pr Date');
+              // } else if (assestInputtRequest[index - 1].astWard == null) {
+              //   showFlutterTost('Enter the Asset Ward');
+              // } else if (assestInputtRequest[index - 1].astimage == null) {
+              //   showFlutterTost('Upload the photo');
+              // } else {
+              apiServices.assectInsert(assestInputtRequest).then((value) async {
+                debugPrint(value.toString());
+                if (value["status"] == true) {
+                  showFlutterTost(value['message'].toString());
+                  Navigator.pushNamedAndRemoveUntil(
+                      context, 'HomePage', (route) => false);
+                } else {
+                  showFlutterTost('Something went wrong');
+                }
+              });
+              // }
             },
             child: CusTextButton('Submit'),
           )
