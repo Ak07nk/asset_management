@@ -13,3 +13,11 @@ const userNam = "Ak Naveen Rao";
 //************************************************PreVerificationScreenText */
 const infor = "Information of Office";
 const selectTheOffice = "Select the office";
+//************************************************PreVerificationScreenText */
+const report = "Report Page";
+
+//******************************************************shareprefs *****************/
+const String userId = "Uid";
+const String userNamee = "UFname";
+const String userLastNamee = "ULname";
+const String userEmailId = "UEmailId";

@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:asset_management/UTILS/color_const.dart';
 import 'package:asset_management/UTILS/text_style_const.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../UTILS/appp_image_const.dart';
 import '../../UTILS/text_const.dart';
@@ -26,11 +27,6 @@ class _SplashScreenState extends State<SplashScreen> {
     return Timer(_duration, checkforlogin);
   }
 
-  checkforlogin() {
-    return Navigator.of(context)
-        .pushNamedAndRemoveUntil("LoginPage", (route) => false);
-  }
-
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -40,6 +36,22 @@ class _SplashScreenState extends State<SplashScreen> {
         bottomNavigationBar: buildBNB(),
       ),
     );
+  }
+
+  Future<void> checkforlogin() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    dynamic uEmail = prefs.getString("UEmailId");
+    // ignore: avoid_print
+    print(uEmail);
+
+    if (uEmail == null) {
+      Navigator.of(context)
+          .pushNamedAndRemoveUntil("LoginPage", (route) => false);
+    } else {
+      Navigator.of(context)
+          .pushNamedAndRemoveUntil("HomePage", (route) => false);
+    }
   }
 
   buildAppBar() {

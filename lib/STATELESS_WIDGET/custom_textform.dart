@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 class CustomTextField extends StatelessWidget {
   String? labelText;
   String? hintText;
+  // String? validData;
   Widget? icondata;
 
   TextEditingController? controller;
@@ -29,7 +30,9 @@ class CustomTextField extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 0),
           child: TextFormField(
+            autovalidateMode: AutovalidateMode.onUserInteraction,
             obscureText: obscureText,
+            // validator: (val) => validData,
             style: tts6B,
             cursorHeight: 25,
             cursorColor: Colors.black,

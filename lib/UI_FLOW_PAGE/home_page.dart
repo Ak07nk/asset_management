@@ -1,6 +1,7 @@
 import 'package:asset_management/UTILS/color_const.dart';
 import 'package:asset_management/UTILS/text_style_const.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../UTILS/text_const.dart';
 
@@ -12,6 +13,16 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  String? userIds;
+  String? userNamees;
+  String? userLastNamees;
+  String? userEmailIds;
+  @override
+  void initState() {
+    super.initState();
+    getSharedPreferences();
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -20,6 +31,16 @@ class _HomePageState extends State<HomePage> {
         body: buildBody(),
       ),
     );
+  }
+
+  Future getSharedPreferences() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      userIds = prefs.getString("Uid");
+      userNamees = prefs.getString("UFname");
+      userLastNamees = prefs.getString("ULname");
+      userEmailIds = prefs.getString("UEmailId");
+    });
   }
 
   buildAppbar() {
@@ -36,9 +57,15 @@ class _HomePageState extends State<HomePage> {
       shadowColor: appColorW,
       actions: [
         IconButton(
-            onPressed: () {},
+            onPressed: () async {
+              SharedPreferences preferences =
+                  await SharedPreferences.getInstance();
+              await preferences.clear();
+              Navigator.of(context)
+                  .pushNamedAndRemoveUntil("LoginPage", (route) => false);
+            },
             icon: Icon(
-              Icons.person,
+              Icons.logout_outlined,
               size: 22,
               color: appColorG,
             ))
@@ -52,11 +79,11 @@ class _HomePageState extends State<HomePage> {
     return Container(
       height: mqH,
       width: mqW,
-      decoration: const BoxDecoration(
+      decoration: BoxDecoration(
         gradient: LinearGradient(
-          begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
-          colors: [
+          begin: Alignment.topCenter,
+          colors: const [
             appColorW,
             appColorW,
             appColorG,
@@ -65,7 +92,7 @@ class _HomePageState extends State<HomePage> {
       ),
       child: ListView(
         physics: BouncingScrollPhysics(),
-        children: [helloUser(), dashBoardData()],
+        children: [helloUser(), widgetNum2()],
       ),
     );
   }
@@ -75,7 +102,7 @@ class _HomePageState extends State<HomePage> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: const [
+        children: [
           Padding(
             padding: EdgeInsets.symmetric(vertical: 5, horizontal: 15),
             child: Text(
@@ -86,7 +113,11 @@ class _HomePageState extends State<HomePage> {
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 15, vertical: 0),
             child: Text(
-              userNam,
+              userNamees != null
+                  ? userNamees!.toUpperCase() +
+                      " " +
+                      userLastNamees!.toUpperCase()
+                  : 'Guest',
               style: tts7B,
             ),
           ),
@@ -95,11 +126,104 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  dashBoardData() {
-    return Column(
-      children: [
-        widgetNum1(),
-      ],
+  // dashBoardData() {
+  //   return Column(
+  //     children: [
+  //       // widgetNum2(),
+  //     ],
+  //   );
+  // }
+
+  widgetNum2() {
+    return SizedBox(
+      height: 800,
+      child: GridView.count(
+        primary: false,
+        padding: const EdgeInsets.all(20),
+        crossAxisSpacing: 10,
+        mainAxisSpacing: 10,
+        crossAxisCount: 2,
+        children: <Widget>[
+          InkWell(
+            onTap: () {
+              Navigator.pushNamed(context, 'PreVerification');
+            },
+            child: Card(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20.0),
+              ),
+              shadowColor: appColorG,
+              color: appColorW,
+              elevation: 5,
+              child: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Container(
+                      height: 100,
+                      width: 150,
+                      // color: appColorB,
+                      decoration: BoxDecoration(
+                          image: DecorationImage(
+                              image: AssetImage('assets/officeIcon.png'))),
+                    ),
+                  ),
+                  Divider(
+                    height: 12,
+                    color: appColorG,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      'Office',
+                      style: tts3B,
+                    ),
+                  )
+                ],
+              ),
+            ),
+          ),
+          InkWell(
+            onTap: () {
+              Navigator.pushNamed(context, 'RepoetPage');
+            },
+            child: Card(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20.0),
+              ),
+              shadowColor: appColorG,
+              color: appColorW,
+              elevation: 5,
+              child: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Container(
+                      height: 100,
+                      width: 150,
+                      // color: appColorB,
+                      decoration: BoxDecoration(
+                          image: DecorationImage(
+                              image: AssetImage('assets/report-icon.jpg'))),
+                    ),
+                  ),
+                  Divider(
+                    height: 12,
+                    color: appColorG,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      'Report',
+                      style: tts3B,
+                    ),
+                  )
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 
@@ -115,7 +239,7 @@ class _HomePageState extends State<HomePage> {
               childAspectRatio: 1),
           shrinkWrap: true,
           padding: EdgeInsets.symmetric(horizontal: 15, vertical: 20),
-          itemCount: 10,
+          itemCount: 1,
           itemBuilder: (BuildContext context, int index) {
             return InkWell(
               onTap: () {
@@ -160,7 +284,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  widgetNum2() {
+  widgetNum3() {
     return SizedBox(
       height: MediaQuery.of(context).size.height * 0.3,
       width: MediaQuery.of(context).size.width,

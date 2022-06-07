@@ -1,8 +1,12 @@
 import 'package:asset_management/UTILS/color_const.dart';
 import 'package:asset_management/UTILS/text_style_const.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../API_FILES/MODEL_CLASSES/login_model.dart';
+import '../../API_FILES/api_calls.dart';
 import '../../STATELESS_WIDGET/custom_textform.dart';
+import '../../STATELESS_WIDGET/flutter_tost.dart';
 import '../../STATELESS_WIDGET/text_button.dart';
 import '../../UTILS/appp_image_const.dart';
 import '../../UTILS/text_const.dart';
@@ -17,6 +21,16 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   TextEditingController loginCTR = TextEditingController();
   TextEditingController passCTR = TextEditingController();
+
+  bool _obscureText = true;
+  // String _password;
+
+  void _toggle() {
+    setState(() {
+      _obscureText = !_obscureText;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -122,25 +136,38 @@ class _LoginPageState extends State<LoginPage> {
       child: Column(
         children: [
           CustomTextField(
-              "Login Id",
-              'AZ00125',
-              Icon(
-                Icons.person,
-                size: 25,
-                color: appColorG,
-              ),
-              loginCTR,
-              false),
+            "Login Id",
+            'AZ@gmail.com',
+            Icon(
+              Icons.person,
+              size: 25,
+              color: appColorG,
+            ),
+            loginCTR,
+            false,
+            //  val.contains('@', '.')
+            //     ? showFlutterTost('Enter the valid Email Id')
+            //     : null,
+          ),
           CustomTextField(
-              "Password",
-              '********',
-              Icon(
-                Icons.visibility_off,
+            "Password",
+            '********',
+            InkWell(
+              onTap: () {
+                _toggle();
+              },
+              child: Icon(
+                _obscureText ? Icons.visibility_off : Icons.visibility,
                 size: 25,
                 color: appColorG,
               ),
-              passCTR,
-              true),
+            ),
+            passCTR,
+            _obscureText,
+            //  val.length < 6
+            //     ? showFlutterTost('Enter the valid Email Id')
+            //     : null,
+          )
         ],
       ),
     );
@@ -151,8 +178,26 @@ class _LoginPageState extends State<LoginPage> {
       children: [
         InkWell(
           onTap: () {
-            Navigator.pushNamedAndRemoveUntil(
-                context, 'HomePage', (route) => true);
+            LoginRequest loginRequest = LoginRequest(
+              xAPIKEY: "PTAX@123",
+              email: loginCTR.value.text,
+              password: passCTR.value.text,
+            );
+            if (loginRequest.email!.isEmpty) {
+              showFlutterTost(
+                'Enter Your Email',
+              );
+            } else if (!loginRequest.email!.contains('@')) {
+              showFlutterTost(
+                'Enter The Valid Email',
+              );
+            } else if (loginRequest.password!.isEmpty) {
+              showFlutterTost(
+                'Enter Your Password',
+              );
+            } else {
+              loginprocess(loginRequest);
+            }
           },
           child: CusTextButton(
             'LogIn',
@@ -167,5 +212,23 @@ class _LoginPageState extends State<LoginPage> {
         )
       ],
     );
+  }
+
+  loginprocess(LoginRequest loginRequest) {
+    apiServices.login(loginRequest).then((value) async {
+      if (value['status'] == true) {
+        SharedPreferences? prefs = await SharedPreferences.getInstance();
+        prefs.setString(userId, value['data']['id']);
+        prefs.setString(userNamee, value['data']['first_name']);
+        prefs.setString(userLastNamee, value['data']['last_name']);
+        prefs.setString(userEmailId, value['data']['email']);
+        debugPrint("userId:::>" + userId);
+        debugPrint("userName:::>" + userNamee);
+        debugPrint("userEmail:::>" + userEmailId);
+        showFlutterTost('Congratulations You Have Successfully LogIn');
+        Navigator.pushNamedAndRemoveUntil(
+            context, 'HomePage', (route) => false);
+      }
+    });
   }
 }

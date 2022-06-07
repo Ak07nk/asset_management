@@ -1,11 +1,18 @@
+import 'dart:io';
+
+import 'package:asset_management/API_FILES/MODEL_CLASSES/assest_insert_model.dart';
+import 'package:asset_management/STATELESS_WIDGET/flutter_tost.dart';
 import 'package:asset_management/UTILS/color_const.dart';
 import 'package:asset_management/UTILS/text_style_const.dart';
 import 'package:flutter/material.dart';
-
-import '../STATELESS_WIDGET/flutter_tost.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:image_picker/image_picker.dart';
+import '../API_FILES/api_calls.dart';
 import '../STATELESS_WIDGET/text_button.dart';
 import '../UTILS/size_const.dart';
 import '../UTILS/text_const.dart';
+
+enum OfficeSelect { officeA, officeB, officeC }
 
 class PreVerification extends StatefulWidget {
   const PreVerification({Key? key}) : super(key: key);
@@ -15,15 +22,37 @@ class PreVerification extends StatefulWidget {
 }
 
 class _PreVerificationState extends State<PreVerification> {
+  TextEditingController dateCtl = TextEditingController();
+  ImagePicker imagePicker = ImagePicker();
+  OfficeSelect? _isSelectoffice;
+  bool isopened = false;
+  DateTime? sDate;
+  String? userIDs;
+  String? datetime;
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
         appBar: buildAppbar(),
         body: buildBody(),
-        bottomNavigationBar: buildBNB(),
+        floatingActionButton: fAB(),
+        bottomNavigationBar: buildBNB(assestInputtRequest.length),
       ),
     );
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getSharedPreferences();
+  }
+
+  Future getSharedPreferences() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      userIDs = prefs.getString("Uid");
+    });
   }
 
   buildAppbar() {
@@ -50,6 +79,39 @@ class _PreVerificationState extends State<PreVerification> {
     );
   }
 
+  fAB() {
+    if (isopened == true) {
+      return FloatingActionButton(
+        backgroundColor: appColorG,
+        onPressed: () {
+          onAddForm();
+        },
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Text(
+            'Add Form',
+            textAlign: TextAlign.center,
+            style: tts2W,
+          ),
+        ),
+      );
+    }
+  }
+
+  /// add forms on tap of fAB
+  void onAddForm() {
+    setState(() {
+      assestInputtRequest.add(AssestInsertRequest());
+    });
+  }
+
+  /// remove the form on tap of delete
+  void onDelete(int index) {
+    setState(() {
+      assestInputtRequest.removeAt(index);
+    });
+  }
+
   buildBody() {
     final mqH = MediaQuery.of(context).size.height;
     final mqW = MediaQuery.of(context).size.height;
@@ -67,11 +129,13 @@ class _PreVerificationState extends State<PreVerification> {
           ],
         ),
       ),
-      child: ListView(
-        physics: BouncingScrollPhysics(),
-        children: [
-          dashBoardData(),
-        ],
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            dashBoardData(),
+            // buildforms(),
+          ],
+        ),
       ),
     );
   }
@@ -79,8 +143,11 @@ class _PreVerificationState extends State<PreVerification> {
   dashBoardData() {
     return Column(
       children: [
-        officedropDown(),
+        // officedropDown(),
         expandedDropDown(),
+        // buildforms(),
+
+        // buildAssestList()
         // expandedDropDown(),
       ],
     );
@@ -97,212 +164,134 @@ class _PreVerificationState extends State<PreVerification> {
           isDense: true,
           suffixIcon: InkWell(
             onTap: () {
-              showDialog(
-                context: context,
-                builder: (ctx) => AlertDialog(
-                  contentPadding: EdgeInsets.all(5),
-                  insetPadding: EdgeInsets.all(8),
-                  // title: Container(
-                  //   color: appColorB,
-                  //   height: 50,
-                  //   width: MediaQuery.of(context).size.width,
-                  //   child: Text('data'),
-                  // ),
-                  content: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Container(
-                        alignment: Alignment.center,
-                        // color: appColorG,
-                        height: 40,
-                        width: MediaQuery.of(context).size.width,
-                        child: Text(
-                          selectTheOffice,
-                          style: tts4B,
-                        ),
+              showDialog<void>(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      contentPadding: EdgeInsets.all(5),
+                      insetPadding: EdgeInsets.all(8),
+                      content: StatefulBuilder(
+                        builder: (BuildContext context, StateSetter setState) {
+                          return Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Container(
+                                alignment: Alignment.center,
+                                // color: appColorG,
+                                height: 40,
+                                width: MediaQuery.of(context).size.width,
+                                child: Text(
+                                  selectTheOffice,
+                                  style: tts4B,
+                                ),
+                              ),
+                              dividerline(),
+                              SizedBox(
+                                // color: appColorG,
+                                // height: 50,
+                                width: MediaQuery.of(context).size.width,
+                                child: ListTile(
+                                  leading: Radio<OfficeSelect>(
+                                      value: OfficeSelect.officeA,
+                                      groupValue: _isSelectoffice,
+                                      onChanged: (OfficeSelect? val) {
+                                        setState(() {
+                                          _isSelectoffice = val;
+                                        });
+                                      }),
+                                  title: Text(
+                                    'Office-A',
+                                    style: tts4B,
+                                  ),
+                                ),
+                              ),
+                              SizedBox(
+                                // color: appColorG,
+                                // height: 50,
+                                width: MediaQuery.of(context).size.width,
+                                child: ListTile(
+                                  leading: Radio<OfficeSelect>(
+                                      value: OfficeSelect.officeB,
+                                      groupValue: _isSelectoffice,
+                                      onChanged: (OfficeSelect? val) {
+                                        setState(() {
+                                          _isSelectoffice = val;
+                                        });
+                                      }),
+                                  title: Text(
+                                    'Office-B',
+                                    style: tts4B,
+                                  ),
+                                ),
+                              ),
+                              SizedBox(
+                                // color: appColorG,
+                                // height: 50,
+                                width: MediaQuery.of(context).size.width,
+                                child: ListTile(
+                                  leading: Radio<OfficeSelect>(
+                                      value: OfficeSelect.officeC,
+                                      groupValue: _isSelectoffice,
+                                      onChanged: (OfficeSelect? val) {
+                                        setState(() {
+                                          _isSelectoffice = val;
+                                        });
+                                      }),
+                                  title: Text(
+                                    'Office-C',
+                                    style: tts4B,
+                                  ),
+                                ),
+                              ),
+                              dividerline(),
+                            ],
+                          );
+                        },
                       ),
-                      dividerline(),
-                      SizedBox(
-                        // color: appColorG,
-                        // height: 50,
-                        width: MediaQuery.of(context).size.width,
-                        child: Row(
-                          children: [
-                            Radio(
-                                activeColor: appColorG,
-                                value: 10,
-                                groupValue: 10,
-                                onChanged: (int) {}),
-                            Text(
-                              'Office-A',
-                              style: tts4B,
-                            ),
-                          ],
+                      actions: [
+                        InkWell(
+                          onTap: () {
+                            Navigator.pop(context);
+                          },
+                          child: Card(
+                            elevation: 3,
+                            color: appColorG,
+                            child: Container(
+                                alignment: Alignment.center,
+                                height: 25,
+                                width: 80,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(5.0),
+                                  child: Text(
+                                    "Cancel",
+                                    style: tts3W,
+                                  ),
+                                )),
+                          ),
                         ),
-                      ),
-                      SizedBox(
-                        // color: appColorG,
-                        // height: 50,
-                        width: MediaQuery.of(context).size.width,
-                        child: Row(
-                          children: [
-                            Radio(
-                                activeColor: appColorG,
-                                value: 8,
-                                groupValue: 10,
-                                onChanged: (int) {}),
-                            Text(
-                              'Office-B',
-                              style: tts4B,
-                            ),
-                          ],
+                        InkWell(
+                          onTap: () {
+                            Navigator.pop(context);
+                          },
+                          child: Card(
+                            elevation: 3,
+                            color: appColorG,
+                            child: Container(
+                                alignment: Alignment.center,
+                                height: 25,
+                                width: 80,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(5.0),
+                                  child: Text(
+                                    "Ok",
+                                    style: tts3W,
+                                  ),
+                                )),
+                          ),
                         ),
-                      ),
-                      SizedBox(
-                        // color: appColorG,
-                        // height: 50,
-                        width: MediaQuery.of(context).size.width,
-                        child: Row(
-                          children: [
-                            Radio(
-                                activeColor: appColorG,
-                                value: 5,
-                                groupValue: 10,
-                                onChanged: (int) {}),
-                            Text(
-                              'Office-C',
-                              style: tts4B,
-                            ),
-                          ],
-                        ),
-                      ),
-                      SizedBox(
-                        // color: appColorG,
-                        // height: 50,
-                        width: MediaQuery.of(context).size.width,
-                        child: Row(
-                          children: [
-                            Radio(
-                                activeColor: appColorG,
-                                value: 5,
-                                groupValue: 10,
-                                onChanged: (int) {}),
-                            Text(
-                              'Office-D',
-                              style: tts4B,
-                            ),
-                          ],
-                        ),
-                      ),
-                      SizedBox(
-                        // color: appColorG,
-                        // height: 50,
-                        width: MediaQuery.of(context).size.width,
-                        child: Row(
-                          children: [
-                            Radio(
-                                activeColor: appColorG,
-                                value: 5,
-                                groupValue: 10,
-                                onChanged: (int) {}),
-                            Text(
-                              'Office-E',
-                              style: tts4B,
-                            ),
-                          ],
-                        ),
-                      ),
-                      SizedBox(
-                        // color: appColorG,
-                        // height: 50,
-                        width: MediaQuery.of(context).size.width,
-                        child: Row(
-                          children: [
-                            Radio(
-                                activeColor: appColorG,
-                                value: 5,
-                                groupValue: 10,
-                                onChanged: (int) {}),
-                            Text(
-                              'Office-F',
-                              style: tts4B,
-                            ),
-                          ],
-                        ),
-                      ),
-                      SizedBox(
-                        // color: appColorG,
-                        // height: 50,
-                        width: MediaQuery.of(context).size.width,
-                        child: Row(
-                          children: [
-                            Radio(
-                                activeColor: appColorG,
-                                value: 5,
-                                groupValue: 10,
-                                onChanged: (int) {}),
-                            Text(
-                              'Office-G',
-                              style: tts4B,
-                            ),
-                          ],
-                        ),
-                      ),
-                      SizedBox(
-                        // color: appColorG,
-                        // height: 50,
-                        width: MediaQuery.of(context).size.width,
-                        child: Row(
-                          children: [
-                            Radio(
-                                activeColor: appColorG,
-                                value: 5,
-                                groupValue: 10,
-                                onChanged: (int) {}),
-                            Text(
-                              'Office-H',
-                              style: tts4B,
-                            ),
-                          ],
-                        ),
-                      ),
-                      dividerline(),
-                    ],
-                  ),
-                  actions: [
-                    Card(
-                      elevation: 3,
-                      color: appColorG,
-                      child: Container(
-                          alignment: Alignment.center,
-                          height: 25,
-                          width: 80,
-                          child: Padding(
-                            padding: const EdgeInsets.all(5.0),
-                            child: Text(
-                              "Cancel",
-                              style: tts3W,
-                            ),
-                          )),
-                    ),
-                    Card(
-                      elevation: 3,
-                      color: appColorG,
-                      child: Container(
-                          alignment: Alignment.center,
-                          height: 25,
-                          width: 80,
-                          child: Padding(
-                            padding: const EdgeInsets.all(5.0),
-                            child: Text(
-                              "Ok",
-                              style: tts3W,
-                            ),
-                          )),
-                    ),
-                  ],
-                ),
-              );
+                      ],
+                    );
+                  });
             },
             child: Icon(
               Icons.arrow_drop_down,
@@ -320,13 +309,106 @@ class _PreVerificationState extends State<PreVerification> {
       padding: const EdgeInsets.all(8.0),
       child: Column(
         children: [
+          // Card(
+          //   elevation: 5,
+          //   shadowColor: appColorG,
+          //   child: ExpansionTile(
+          //     initiallyExpanded: false,
+          //     title: Text(
+          //       'Information',
+          //       style: tts5B,
+          //     ),
+          //     leading: Container(
+          //       alignment: Alignment.center,
+          //       height: 28,
+          //       width: 28,
+          //       decoration: BoxDecoration(
+          //           borderRadius: BorderRadius.circular(50),
+          //           color: appColorG.withOpacity(0.7)),
+          //       child: Text(
+          //         '1',
+          //         style: tts4W,
+          //       ),
+          //     ),
+          //     children: [
+          //       dividerline(),
+          //       Column(
+          //         children: [
+          //           Padding(
+          //             padding: const EdgeInsets.all(8.0),
+          //             child: TextFormField(
+          //               // readOnly: true,
+          //               style: tts4B,
+          //               decoration: InputDecoration(
+          //                 hintText: 'Name',
+          //                 hintStyle: tts4GY,
+          //                 isDense: true,
+          //                 border: OutlineInputBorder(
+          //                     borderRadius: BorderRadius.circular(8)),
+          //               ),
+          //             ),
+          //           ),
+          //           Padding(
+          //             padding: const EdgeInsets.all(8.0),
+          //             child: TextFormField(
+          //               // readOnly: true,
+          //               style: tts4B,
+          //               decoration: InputDecoration(
+          //                 hintText: 'Mobile No',
+          //                 hintStyle: tts4GY,
+          //                 isDense: true,
+          //                 border: OutlineInputBorder(
+          //                     borderRadius: BorderRadius.circular(8)),
+          //               ),
+          //             ),
+          //           ),
+          //           Padding(
+          //             padding: const EdgeInsets.all(8.0),
+          //             child: TextFormField(
+          //               // readOnly: true,
+          //               style: tts4B,
+          //               decoration: InputDecoration(
+          //                 hintText: 'Pin Code',
+          //                 hintStyle: tts4GY,
+          //                 isDense: true,
+          //                 border: OutlineInputBorder(
+          //                     borderRadius: BorderRadius.circular(8)),
+          //               ),
+          //             ),
+          //           ),
+          //           Padding(
+          //             padding: const EdgeInsets.all(8.0),
+          //             child: TextFormField(
+          //               // readOnly: true,
+          //               style: tts4B,
+          //               maxLength: 500,
+          //               maxLines: 5,
+          //               decoration: InputDecoration(
+          //                 hintText: 'Address',
+          //                 hintStyle: tts4GY,
+          //                 isDense: true,
+          //                 border: OutlineInputBorder(
+          //                     borderRadius: BorderRadius.circular(8)),
+          //               ),
+          //             ),
+          //           ),
+          //         ],
+          //       ),
+          //     ],
+          //   ),
+          // ),
           Card(
             elevation: 5,
             shadowColor: appColorG,
             child: ExpansionTile(
+              onExpansionChanged: (value) {
+                setState(() {
+                  isopened = value;
+                });
+              },
               initiallyExpanded: false,
               title: Text(
-                'Information',
+                'Office Property Information',
                 style: tts5B,
               ),
               leading: Container(
@@ -343,314 +425,7 @@ class _PreVerificationState extends State<PreVerification> {
               ),
               children: [
                 dividerline(),
-                Container(
-                  // height: 500,
-                  child: Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: TextFormField(
-                          // readOnly: true,
-                          style: tts4B,
-                          decoration: InputDecoration(
-                            hintText: 'Name',
-                            hintStyle: tts4GY,
-                            isDense: true,
-                            border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(8)),
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: TextFormField(
-                          // readOnly: true,
-                          style: tts4B,
-                          decoration: InputDecoration(
-                            hintText: 'Mobile No',
-                            hintStyle: tts4GY,
-                            isDense: true,
-                            border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(8)),
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: TextFormField(
-                          // readOnly: true,
-                          style: tts4B,
-                          decoration: InputDecoration(
-                            hintText: 'Pin Code',
-                            hintStyle: tts4GY,
-                            isDense: true,
-                            border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(8)),
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: TextFormField(
-                          // readOnly: true,
-                          style: tts4B,
-                          maxLength: 500,
-                          maxLines: 5,
-                          decoration: InputDecoration(
-                            hintText: 'Address',
-                            hintStyle: tts4GY,
-                            isDense: true,
-                            border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(8)),
-                          ),
-                        ),
-                      ),
-                      dividerline(),
-                      Container(
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 20),
-                          child: Column(
-                            children: [
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceAround,
-                                children: [
-                                  Text(
-                                    'Option-A',
-                                    style: tts3B,
-                                  ),
-                                  Row(
-                                    children: [
-                                      Radio(
-                                          value: 10,
-                                          groupValue: 10,
-                                          onChanged: (int) {}),
-                                      Text(
-                                        'Yes',
-                                        style: tts3B,
-                                      ),
-                                    ],
-                                  ),
-                                  Row(
-                                    children: [
-                                      Radio(
-                                          value: 0,
-                                          groupValue: 10,
-                                          onChanged: (int) {}),
-                                      Text(
-                                        'No',
-                                        style: tts3B,
-                                      ),
-                                    ],
-                                  )
-                                ],
-                              ),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceAround,
-                                children: [
-                                  Text(
-                                    'Option-B',
-                                    style: tts3B,
-                                  ),
-                                  Row(
-                                    children: [
-                                      Radio(
-                                          value: 0,
-                                          groupValue: 10,
-                                          onChanged: (int) {}),
-                                      Text(
-                                        'Yes',
-                                        style: tts3B,
-                                      ),
-                                    ],
-                                  ),
-                                  Row(
-                                    children: [
-                                      Radio(
-                                          value: 10,
-                                          groupValue: 10,
-                                          onChanged: (int) {}),
-                                      Text(
-                                        'No',
-                                        style: tts3B,
-                                      ),
-                                    ],
-                                  )
-                                ],
-                              ),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceAround,
-                                children: [
-                                  Text(
-                                    'Option-C',
-                                    style: tts3B,
-                                  ),
-                                  Row(
-                                    children: [
-                                      Radio(
-                                          value: 0,
-                                          groupValue: 10,
-                                          onChanged: (int) {}),
-                                      Text(
-                                        'Yes',
-                                        style: tts3B,
-                                      ),
-                                    ],
-                                  ),
-                                  Row(
-                                    children: [
-                                      Radio(
-                                          value: 0,
-                                          groupValue: 10,
-                                          onChanged: (int) {}),
-                                      Text(
-                                        'No',
-                                        style: tts3B,
-                                      ),
-                                    ],
-                                  )
-                                ],
-                              ),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceAround,
-                                children: [
-                                  Text(
-                                    'Option-D',
-                                    style: tts3B,
-                                  ),
-                                  Row(
-                                    children: [
-                                      Radio(
-                                          value: 0,
-                                          groupValue: 10,
-                                          onChanged: (int) {}),
-                                      Text(
-                                        'Yes',
-                                        style: tts3B,
-                                      ),
-                                    ],
-                                  ),
-                                  Row(
-                                    children: [
-                                      Radio(
-                                          value: 0,
-                                          groupValue: 10,
-                                          onChanged: (int) {}),
-                                      Text(
-                                        'No',
-                                        style: tts3B,
-                                      ),
-                                    ],
-                                  )
-                                ],
-                              ),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceAround,
-                                children: [
-                                  Text(
-                                    'Option-E',
-                                    style: tts3B,
-                                  ),
-                                  Row(
-                                    children: [
-                                      Radio(
-                                          value: 0,
-                                          groupValue: 10,
-                                          onChanged: (int) {}),
-                                      Text(
-                                        'Yes',
-                                        style: tts3B,
-                                      ),
-                                    ],
-                                  ),
-                                  Row(
-                                    children: [
-                                      Radio(
-                                          value: 0,
-                                          groupValue: 10,
-                                          onChanged: (int) {}),
-                                      Text(
-                                        'No',
-                                        style: tts3B,
-                                      ),
-                                    ],
-                                  )
-                                ],
-                              ),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceAround,
-                                children: [
-                                  Text(
-                                    'Option-F',
-                                    style: tts3B,
-                                  ),
-                                  Row(
-                                    children: [
-                                      Radio(
-                                          value: 0,
-                                          groupValue: 10,
-                                          onChanged: (int) {}),
-                                      Text(
-                                        'Yes',
-                                        style: tts3B,
-                                      ),
-                                    ],
-                                  ),
-                                  Row(
-                                    children: [
-                                      Radio(
-                                          value: 0,
-                                          groupValue: 10,
-                                          onChanged: (int) {}),
-                                      Text(
-                                        'No',
-                                        style: tts3B,
-                                      ),
-                                    ],
-                                  )
-                                ],
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
-          Card(
-            elevation: 5,
-            shadowColor: appColorG,
-            child: ExpansionTile(
-              initiallyExpanded: false,
-              title: Text(
-                'Office Property Information',
-                style: tts5B,
-              ),
-              leading: Container(
-                alignment: Alignment.center,
-                height: 28,
-                width: 28,
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(50),
-                    color: appColorG.withOpacity(0.7)),
-                child: Text(
-                  '2',
-                  style: tts4W,
-                ),
-              ),
-              children: [
-                dividerline(),
-                Container(
-                  child: buildTable(),
-                )
+                buildforms(),
               ],
             ),
           ),
@@ -658,6 +433,365 @@ class _PreVerificationState extends State<PreVerification> {
       ),
     );
   }
+
+  buildforms() {
+    return SingleChildScrollView(
+      child: ListView.builder(
+          physics: NeverScrollableScrollPhysics(),
+          scrollDirection: Axis.vertical,
+          shrinkWrap: true,
+          itemCount: assestInputtRequest.length,
+          itemBuilder: (BuildContext context, int index) {
+            return assestForm(index);
+          }),
+    );
+  }
+
+  Padding assestForm(index) {
+    return Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Card(
+          elevation: 5,
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: AppBar(
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20)),
+                  backgroundColor: appColorG.withOpacity(0.6),
+                  leading: Icon(
+                    Icons.star,
+                    size: 25,
+                    color: appColorB,
+                  ),
+                  elevation: 0,
+                  title: Text(
+                    'Form : ' '${index + 1}',
+                    style: tts4B,
+                  ),
+                  actions: [
+                    IconButton(
+                      onPressed: () {
+                        if (index == 0) {
+                          () {};
+                        } else {
+                          onDelete(index);
+                        }
+                      },
+                      icon: index == 0
+                          ? SizedBox()
+                          : Icon(
+                              Icons.delete,
+                              color: appColorB,
+                            ),
+                    )
+                  ],
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: TextFormField(
+                  // readOnly: true,
+                  style: tts4B,
+                  onChanged: (val) {
+                    setState(() {
+                      assestInputtRequest[index].astName = val;
+                    });
+                  },
+                  decoration: InputDecoration(
+                    hintText: 'Asset Name',
+                    hintStyle: tts4GY,
+                    isDense: true,
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(8)),
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: TextFormField(
+                  // readOnly: true,
+                  style: tts4B,
+                  onChanged: (val) {
+                    setState(() {
+                      assestInputtRequest[index].astDesc = val;
+                    });
+                  },
+                  decoration: InputDecoration(
+                    hintText: 'Asset desc',
+                    hintStyle: tts4GY,
+                    isDense: true,
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(8)),
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: TextFormField(
+                  // readOnly: true,
+                  style: tts4B,
+                  onChanged: (val) {
+                    setState(() {
+                      assestInputtRequest[index].astCat = int.tryParse(val);
+                    });
+                  },
+                  decoration: InputDecoration(
+                    hintText: 'Asset cat',
+                    hintStyle: tts4GY,
+                    isDense: true,
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(8)),
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: TextFormField(
+                  // readOnly: true,
+                  style: tts4B,
+                  onChanged: (val) {
+                    setState(() {
+                      assestInputtRequest[index].astQty = int.tryParse(val);
+                    });
+                  },
+                  decoration: InputDecoration(
+                    hintText: 'Asset Qty',
+                    hintStyle: tts4GY,
+                    isDense: true,
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(8)),
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: TextFormField(
+                  // readOnly: true,
+                  style: tts4B,
+                  onChanged: (val) {
+                    setState(() {
+                      assestInputtRequest[index].astCondition = val;
+                    });
+                  },
+                  decoration: InputDecoration(
+                    hintText: 'Asset condition',
+                    hintStyle: tts4GY,
+                    isDense: true,
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(8)),
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: TextFormField(
+                  // readOnly: true,
+                  style: tts4B,
+
+                  onChanged: (val) {
+                    setState(() {
+                      assestInputtRequest[index].astRemarks = val;
+                    });
+                  },
+                  decoration: InputDecoration(
+                    hintText: 'Asset remark',
+                    hintStyle: tts4GY,
+                    isDense: true,
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(8)),
+                  ),
+                ),
+              ),
+              // Padding(
+              //   padding: const EdgeInsets.all(8.0),
+              //   child: TextFormField(
+              //     readOnly: true,
+              //     initialValue: userIDs,
+              //     style: tts4B,
+              //     onChanged: (userIDs) {
+              //       setState(() {
+              //         assestInputtRequest[index].createdBy =
+              //             int.tryParse(userIDs);
+              //       });
+              //       debugPrint(userIDs);
+              //     },
+              //     decoration: InputDecoration(
+              //       hintText: 'Created By',
+              //       hintStyle: tts4GY,
+              //       isDense: true,
+              //       border: OutlineInputBorder(
+              //           borderRadius: BorderRadius.circular(8)),
+              //     ),
+              //   ),
+              // ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: TextFormField(
+                  style: tts4B,
+                  onChanged: (val) {
+                    setState(() {
+                      assestInputtRequest[index].astprdate = val;
+                    });
+                  },
+                  decoration: InputDecoration(
+                    // suffix: InkWell(
+                    //   onTap: () {
+                    //     showcalander();
+                    //   },
+                    //   child: Card(
+                    //     color: appColorG.withOpacity(0.8),
+                    //     child: Padding(
+                    //       padding: const EdgeInsets.all(2.0),
+                    //       child: Text(
+                    //         'Select The Date',
+                    //         style: tts2W,
+                    //       ),
+                    //     ),
+                    //   ),
+                    // ),
+                    hintText: 'DD-MM-YYYY',
+                    hintStyle: tts4GY,
+                    isDense: true,
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(8)),
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: TextFormField(
+                  // readOnly: true,
+                  style: tts4B,
+
+                  onChanged: (val) {
+                    setState(() {
+                      assestInputtRequest[index].astWard = int.tryParse(val);
+                    });
+                  },
+
+                  decoration: InputDecoration(
+                    hintText: 'Asset ward',
+                    hintStyle: tts4GY,
+                    isDense: true,
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(8)),
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: InkWell(
+                    onTap: () {
+                      imagePicker
+                          .pickImage(source: ImageSource.camera)
+                          .then((value) {
+                        setState(() {
+                          assestInputtRequest[index].astimage = value!.path;
+                        });
+                        debugPrint(assestInputtRequest[index].astimage);
+                      });
+                    },
+                    child: assestInputtRequest[index].astimage == null
+                        ? Padding(
+                            padding: const EdgeInsets.all(10.0),
+                            child: Container(
+                              height: MediaQuery.of(context).size.width / 1.0,
+                              width: MediaQuery.of(context).size.width / 1.2,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(25),
+                                border: Border(
+                                  bottom:
+                                      BorderSide(color: appColorG, width: 3),
+                                  top: BorderSide(color: appColorG, width: 3),
+                                  left: BorderSide(color: appColorG, width: 3),
+                                  right: BorderSide(color: appColorG, width: 3),
+                                ),
+                                shape: BoxShape.rectangle,
+                                color: appColorW,
+                              ),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: const [
+                                  Icon(
+                                    Icons.add_a_photo_outlined,
+                                    size: 50,
+                                    color: appColorG,
+                                  ),
+                                  Text('Click Here to Add Photo')
+                                ],
+                              ),
+                              padding: const EdgeInsets.all(8.0),
+                            ),
+                          )
+                        : Padding(
+                            padding: const EdgeInsets.all(10.0),
+                            child: Container(
+                              height: MediaQuery.of(context).size.width / 1.0,
+                              width: MediaQuery.of(context).size.width / 1.2,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(25),
+                                border: const Border(
+                                  bottom:
+                                      BorderSide(color: appColorG, width: 3),
+                                  top: BorderSide(color: appColorG, width: 3),
+                                  left: BorderSide(color: appColorG, width: 3),
+                                  right: BorderSide(color: appColorG, width: 3),
+                                ),
+
+                                // image: DecorationImage(
+                                //     fit: BoxFit.contain,
+                                //     image: FileImage(File(
+                                //         assestInputtRequest[index]
+                                //             .astimage
+                                //             .toString()))),
+                                shape: BoxShape.rectangle,
+                                // color: Colors.black12,
+                              ),
+                              child: Center(
+                                  child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: const [
+                                  // Container(
+                                  //   height: 150,
+                                  //   width: 150,
+                                  //   child: Image(
+                                  //       image: FileImage(File(
+                                  //           assestInputtRequest[index]
+                                  //               .astimage
+                                  //               .toString()))),
+                                  // ),
+                                  Text('Uploaded'),
+                                ],
+                              )),
+                              padding: const EdgeInsets.all(8.0),
+                            ))),
+              ),
+            ],
+          ),
+        ));
+  }
+
+  List<AssestInsertRequest> assestInputtRequest = [
+    AssestInsertRequest(),
+  ];
+  // Future showcalander() async {
+  //   final initialDate = DateTime.now();
+  //   final newDate = await showDatePicker(
+  //       context: context,
+  //       initialDate: sDate ?? initialDate,
+  //       firstDate: DateTime(DateTime.now().year - 15),
+  //       lastDate: DateTime(DateTime.now().year + 15));
+  //   if (newDate == null) return;
+  //   setState(() => sDate = newDate);
+  //   debugPrint(sDate.toString());
+  //   dateCtl.text = '${sDate!.day}-${sDate!.month}-${sDate!.year}';
+  //   datetime = '${sDate!.day}-${sDate!.month}-${sDate!.year}';
+  // }
 
   buildTable() {
     return Padding(
@@ -765,23 +899,7 @@ class _PreVerificationState extends State<PreVerification> {
     );
   }
 
-  // submitButt() {
-  //   return Column(
-  //     children: [
-  //       InkWell(
-  //         onTap: () {
-  //           Navigator.pushNamedAndRemoveUntil(
-  //               context, 'HomePage', (route) => true);
-  //         },
-  //         child: CusTextButton(
-  //           'Submit',
-  //         ),
-  //       ),
-  //     ],
-  //   );
-  // }
-
-  buildBNB() {
+  buildBNB(index) {
     return Container(
       height: 50,
       color: Colors.transparent,
@@ -789,11 +907,42 @@ class _PreVerificationState extends State<PreVerification> {
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
           InkWell(
-              onTap: () {
-                Navigator.pushNamedAndRemoveUntil(
-                    context, 'HomePage', (route) => true);
-              },
-              child: CusTextButton('Submit')),
+            onTap: () {
+              if (assestInputtRequest[index - 1].astName == null) {
+                showFlutterTost('Enter the Asset Name');
+              } else if (assestInputtRequest[index - 1].astDesc == null) {
+                showFlutterTost('Enter the Asset Desc');
+              } else if (assestInputtRequest[index - 1].astCat == null) {
+                showFlutterTost('Enter the Asset Cat');
+              } else if (assestInputtRequest[index - 1].astQty == null) {
+                showFlutterTost('Enter the Asset Qty');
+              } else if (assestInputtRequest[index - 1].astCondition == null) {
+                showFlutterTost('Enter the Asset Condition');
+              } else if (assestInputtRequest[index - 1].astRemarks == null) {
+                showFlutterTost('Enter the Asset Remarks');
+              } else if (assestInputtRequest[index - 1].astprdate == null) {
+                showFlutterTost('Enter the Asset Pr Date');
+              } else if (assestInputtRequest[index - 1].astWard == null) {
+                showFlutterTost('Enter the Asset Ward');
+              } else if (assestInputtRequest[index - 1].astimage == null) {
+                showFlutterTost('Upload the photo');
+              } else {
+                apiServices
+                    .assectInsert(assestInputtRequest)
+                    .then((value) async {
+                  debugPrint(value.toString());
+                  if (value["status"] == true) {
+                    showFlutterTost(value['message'].toString());
+                    Navigator.pushNamedAndRemoveUntil(
+                        context, 'HomePage', (route) => false);
+                  } else {
+                    showFlutterTost('Something went wrong');
+                  }
+                });
+              }
+            },
+            child: CusTextButton('Submit'),
+          )
         ],
       ),
     );
