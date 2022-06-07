@@ -8,7 +8,6 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:image_picker/image_picker.dart';
 import '../API_FILES/api_calls.dart';
-import '../STATELESS_WIDGET/text_button.dart';
 import '../UTILS/size_const.dart';
 import '../UTILS/text_const.dart';
 
@@ -29,6 +28,7 @@ class _PreVerificationState extends State<PreVerification> {
   DateTime? sDate;
   String? userIDs;
   String? datetime;
+  bool isSubmit = false;
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +37,7 @@ class _PreVerificationState extends State<PreVerification> {
         appBar: buildAppbar(),
         body: buildBody(),
         floatingActionButton: fAB(),
-        bottomNavigationBar: buildBNB(assestInputtRequest.length),
+        // bottomNavigationBar: buildBNB(assestInputtRequest.length),
       ),
     );
   }
@@ -48,6 +48,7 @@ class _PreVerificationState extends State<PreVerification> {
     getSharedPreferences();
   }
 
+  //*sharePreferences to call the UserId
   Future getSharedPreferences() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
@@ -55,6 +56,7 @@ class _PreVerificationState extends State<PreVerification> {
     });
   }
 
+  //*App bar
   buildAppbar() {
     return AppBar(
       backgroundColor: appColorW,
@@ -79,6 +81,7 @@ class _PreVerificationState extends State<PreVerification> {
     );
   }
 
+  //*floting action button
   fAB() {
     if (isopened == true) {
       return FloatingActionButton(
@@ -98,20 +101,21 @@ class _PreVerificationState extends State<PreVerification> {
     }
   }
 
-  /// add forms on tap of fAB
+  //* add forms on tap of fAB
   void onAddForm() {
     setState(() {
       assestInputtRequest.add(AssestInsertRequest());
     });
   }
 
-  /// remove the form on tap of delete
+  //* remove the form on tap of delete
   void onDelete(int index) {
     setState(() {
       assestInputtRequest.removeAt(index);
     });
   }
 
+  //* Body containe
   buildBody() {
     final mqH = MediaQuery.of(context).size.height;
     final mqW = MediaQuery.of(context).size.height;
@@ -130,6 +134,7 @@ class _PreVerificationState extends State<PreVerification> {
         ),
       ),
       child: SingleChildScrollView(
+        physics: BouncingScrollPhysics(),
         child: Column(
           children: [
             dashBoardData(),
@@ -146,12 +151,11 @@ class _PreVerificationState extends State<PreVerification> {
         // officedropDown(),
         expandedDropDown(),
         // buildforms(),
-
-        // buildAssestList()
-        // expandedDropDown(),
       ],
     );
   }
+
+  ///
 
   officedropDown() {
     return Padding(
@@ -425,6 +429,8 @@ class _PreVerificationState extends State<PreVerification> {
               children: [
                 dividerline(),
                 buildforms(),
+                dividerline(),
+                buildBNB(assestInputtRequest.length),
               ],
             ),
           ),
@@ -499,8 +505,8 @@ class _PreVerificationState extends State<PreVerification> {
                   });
                 },
                 decoration: InputDecoration(
-                  hintText: 'Asset Name',
-                  hintStyle: tts4GY,
+                  labelText: 'Asset Name',
+                  labelStyle: tts4G,
                   isDense: true,
                   border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(8)),
@@ -518,8 +524,8 @@ class _PreVerificationState extends State<PreVerification> {
                   });
                 },
                 decoration: InputDecoration(
-                  hintText: 'Asset desc',
-                  hintStyle: tts4GY,
+                  labelText: 'Asset desc',
+                  labelStyle: tts4G,
                   isDense: true,
                   border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(8)),
@@ -537,8 +543,8 @@ class _PreVerificationState extends State<PreVerification> {
                   });
                 },
                 decoration: InputDecoration(
-                  hintText: 'Asset cat',
-                  hintStyle: tts4GY,
+                  labelText: 'Asset cat',
+                  labelStyle: tts4G,
                   isDense: true,
                   border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(8)),
@@ -556,8 +562,8 @@ class _PreVerificationState extends State<PreVerification> {
                   });
                 },
                 decoration: InputDecoration(
-                  hintText: 'Asset Qty',
-                  hintStyle: tts4GY,
+                  labelText: 'Asset Qty',
+                  labelStyle: tts4G,
                   isDense: true,
                   border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(8)),
@@ -575,8 +581,8 @@ class _PreVerificationState extends State<PreVerification> {
                   });
                 },
                 decoration: InputDecoration(
-                  hintText: 'Asset condition',
-                  hintStyle: tts4GY,
+                  labelText: 'Asset condition',
+                  labelStyle: tts4G,
                   isDense: true,
                   border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(8)),
@@ -595,8 +601,8 @@ class _PreVerificationState extends State<PreVerification> {
                   });
                 },
                 decoration: InputDecoration(
-                  hintText: 'Asset remark',
-                  hintStyle: tts4GY,
+                  labelText: 'Asset remark',
+                  labelStyle: tts4G,
                   isDense: true,
                   border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(8)),
@@ -650,8 +656,8 @@ class _PreVerificationState extends State<PreVerification> {
                   //     ),
                   //   ),
                   // ),
-                  hintText: 'DD-MM-YYYY',
-                  hintStyle: tts4GY,
+                  labelText: 'DD-MM-YYYY',
+                  labelStyle: tts4G,
                   isDense: true,
                   border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(8)),
@@ -671,8 +677,8 @@ class _PreVerificationState extends State<PreVerification> {
                 },
 
                 decoration: InputDecoration(
-                  hintText: 'Asset ward',
-                  hintStyle: tts4GY,
+                  labelText: 'Asset ward',
+                  labelStyle: tts4G,
                   isDense: true,
                   border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(8)),
@@ -680,7 +686,7 @@ class _PreVerificationState extends State<PreVerification> {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.all(0.0),
               child: InkWell(
                   onTap: () {
                     imagePicker
@@ -694,10 +700,10 @@ class _PreVerificationState extends State<PreVerification> {
                   },
                   child: assestInputtRequest[index].astimage == null
                       ? Padding(
-                          padding: const EdgeInsets.all(10.0),
+                          padding: const EdgeInsets.all(5.0),
                           child: Container(
                             height: MediaQuery.of(context).size.width / 1.0,
-                            width: MediaQuery.of(context).size.width / 1.2,
+                            width: MediaQuery.of(context).size.width / 1.35,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(25),
                               border: Border(
@@ -717,14 +723,17 @@ class _PreVerificationState extends State<PreVerification> {
                                   size: 50,
                                   color: appColorG,
                                 ),
-                                Text('Click Here to Add Photo')
+                                Text(
+                                  'Click Here to Add Photo',
+                                  style: tts4G,
+                                )
                               ],
                             ),
                             padding: const EdgeInsets.all(8.0),
                           ),
                         )
                       : Padding(
-                          padding: const EdgeInsets.all(10.0),
+                          padding: const EdgeInsets.all(5.0),
                           child: Container(
                             height: MediaQuery.of(context).size.width / 1.0,
                             width: MediaQuery.of(context).size.width / 1.35,
@@ -890,45 +899,78 @@ class _PreVerificationState extends State<PreVerification> {
   buildBNB(index) {
     return Container(
       height: 45,
-      color: appColorG,
+      // color: appColorG.withOpacity(0.5),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          InkWell(
-            onTap: () {
-              // if (assestInputtRequest[index - 1].astName == null) {
-              //   showFlutterTost('Enter the Asset Name');
-              // } else if (assestInputtRequest[index - 1].astDesc == null) {
-              //   showFlutterTost('Enter the Asset Desc');
-              // } else if (assestInputtRequest[index - 1].astCat == null) {
-              //   showFlutterTost('Enter the Asset Cat');
-              // } else if (assestInputtRequest[index - 1].astQty == null) {
-              //   showFlutterTost('Enter the Asset Qty');
-              // } else if (assestInputtRequest[index - 1].astCondition == null) {
-              //   showFlutterTost('Enter the Asset Condition');
-              // } else if (assestInputtRequest[index - 1].astRemarks == null) {
-              //   showFlutterTost('Enter the Asset Remarks');
-              // } else if (assestInputtRequest[index - 1].astprdate == null) {
-              //   showFlutterTost('Enter the Asset Pr Date');
-              // } else if (assestInputtRequest[index - 1].astWard == null) {
-              //   showFlutterTost('Enter the Asset Ward');
-              // } else if (assestInputtRequest[index - 1].astimage == null) {
-              //   showFlutterTost('Upload the photo');
-              // } else {
-              apiServices.assectInsert(assestInputtRequest).then((value) async {
-                debugPrint(value.toString());
-                if (value["status"] == true) {
-                  showFlutterTost(value['message'].toString());
-                  Navigator.pushNamedAndRemoveUntil(
-                      context, 'HomePage', (route) => false);
-                } else {
-                  showFlutterTost('Something went wrong');
-                }
-              });
-              // }
-            },
-            child: CusTextButton('Submit'),
-          )
+          Padding(
+              padding: const EdgeInsets.all(3.0),
+              child: SizedBox(
+                  width: 150,
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                        shadowColor: appColorG,
+                        primary: appColorG,
+                        textStyle: tts3B,
+                        shape: StadiumBorder()),
+                    onPressed: () async {
+                      if (assestInputtRequest[index - 1].astName == null) {
+                        showFlutterTost('Enter the Asset Name');
+                      } else if (assestInputtRequest[index - 1].astDesc ==
+                          null) {
+                        showFlutterTost('Enter the Asset Desc');
+                      } else if (assestInputtRequest[index - 1].astCat ==
+                          null) {
+                        showFlutterTost('Enter the Asset Cat');
+                      } else if (assestInputtRequest[index - 1].astQty ==
+                          null) {
+                        showFlutterTost('Enter the Asset Qty');
+                      } else if (assestInputtRequest[index - 1].astCondition ==
+                          null) {
+                        showFlutterTost('Enter the Asset Condition');
+                      } else if (assestInputtRequest[index - 1].astRemarks ==
+                          null) {
+                        showFlutterTost('Enter the Asset Remarks');
+                      } else if (assestInputtRequest[index - 1].astprdate ==
+                          null) {
+                        showFlutterTost('Enter the Asset Pr Date');
+                      } else if (assestInputtRequest[index - 1].astWard ==
+                          null) {
+                        showFlutterTost('Enter the Asset Ward');
+                      } else if (assestInputtRequest[index - 1].astimage ==
+                          null) {
+                        showFlutterTost('Upload the photo');
+                      } else {
+                        setState(() => isSubmit = true);
+                        apiServices
+                            .assectInsert(assestInputtRequest)
+                            .then((value) async {
+                          debugPrint(value.toString());
+                          if (value["status"] == true) {
+                            await Future.delayed(Duration(seconds: 3));
+                            setState(() => isSubmit = false);
+                            showFlutterTost(value['message'].toString());
+                            Navigator.pushNamedAndRemoveUntil(
+                                context, 'HomePage', (route) => false);
+                          } else {
+                            showFlutterTost('Something went wrong');
+                          }
+                        });
+                      }
+                    },
+                    child: isSubmit
+                        ? Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: CircularProgressIndicator(
+                              color: appColorW,
+                              strokeWidth: 2,
+                            ),
+                          )
+                        : Text(
+                            'Submit',
+                            style: tts4W,
+                          ),
+                  )))
         ],
       ),
     );

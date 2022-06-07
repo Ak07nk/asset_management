@@ -32,3 +32,30 @@ class CusTextButton extends StatelessWidget {
     );
   }
 }
+class CusTextButtonAnimat extends StatelessWidget {
+  String? butName;
+
+  CusTextButtonAnimat(this.butName, {Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(20.0),
+      ),
+      margin: EdgeInsets.all(5),
+      color: appColorG,
+      child: Container(
+        alignment: Alignment.center,
+        width: 180,
+        child: Padding(
+          padding: const EdgeInsets.all(7.0),
+          child: Text(
+            butName!,
+            style: tts6WW,
+          ),
+        ),
+      ),
+    );
+  }
+}

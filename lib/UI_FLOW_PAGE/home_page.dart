@@ -91,8 +91,11 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
       child: ListView(
-        physics: BouncingScrollPhysics(),
-        children: [helloUser(), widgetNum2()],
+        physics: NeverScrollableScrollPhysics(),
+        children: [
+          helloUser(),
+          widgetNum2(),
+        ],
       ),
     );
   }
@@ -126,24 +129,16 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  // dashBoardData() {
-  //   return Column(
-  //     children: [
-  //       // widgetNum2(),
-  //     ],
-  //   );
-  // }
-
   widgetNum2() {
     return SizedBox(
-      height: 800,
+      height: MediaQuery.of(context).size.height,
       child: GridView.count(
         primary: false,
-        padding: const EdgeInsets.all(20),
-        crossAxisSpacing: 10,
-        mainAxisSpacing: 10,
+        padding: const EdgeInsets.all(15),
+        crossAxisSpacing: 8,
+        mainAxisSpacing: 8,
         crossAxisCount: 2,
-        children: <Widget>[
+        children: [
           InkWell(
             onTap: () {
               Navigator.pushNamed(context, 'PreVerification');
