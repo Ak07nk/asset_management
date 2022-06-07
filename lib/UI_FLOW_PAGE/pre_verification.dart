@@ -413,11 +413,10 @@ class _PreVerificationState extends State<PreVerification> {
               ),
               leading: Container(
                 alignment: Alignment.center,
-                height: 28,
-                width: 28,
+                height: 30,
+                width: 25,
                 decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(50),
-                    color: appColorG.withOpacity(0.7)),
+                    borderRadius: BorderRadius.circular(50), color: appColorG),
                 child: Text(
                   '1',
                   style: tts4W,
@@ -450,329 +449,318 @@ class _PreVerificationState extends State<PreVerification> {
   Padding assestForm(index) {
     return Padding(
         padding: const EdgeInsets.all(8.0),
-        child: Card(
-          elevation: 5,
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: AppBar(
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20)),
-                  backgroundColor: appColorG.withOpacity(0.6),
-                  leading: Icon(
-                    Icons.star,
-                    size: 25,
-                    color: appColorB,
-                  ),
-                  elevation: 0,
-                  title: Text(
-                    'Form : ' '${index + 1}',
-                    style: tts4B,
-                  ),
-                  actions: [
-                    IconButton(
-                      onPressed: () {
-                        if (index == 0) {
-                          () {};
-                        } else {
-                          onDelete(index);
-                        }
-                      },
-                      icon: index == 0
-                          ? SizedBox()
-                          : Icon(
-                              Icons.delete,
-                              color: appColorB,
-                            ),
-                    )
-                  ],
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: AppBar(
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10)),
+                backgroundColor: appColorG,
+                leading: Icon(
+                  Icons.format_align_left_rounded,
+                  size: 25,
+                  color: appColorW,
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: TextFormField(
-                  // readOnly: true,
-                  style: tts4B,
-                  onChanged: (val) {
-                    setState(() {
-                      assestInputtRequest[index].astName = val;
-                    });
-                  },
-                  decoration: InputDecoration(
-                    hintText: 'Asset Name',
-                    hintStyle: tts4GY,
-                    isDense: true,
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8)),
-                  ),
+                centerTitle: true,
+                elevation: 0,
+                title: Text(
+                  'Form : ' '${index + 1}',
+                  style: tts4W,
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: TextFormField(
-                  // readOnly: true,
-                  style: tts4B,
-                  onChanged: (val) {
-                    setState(() {
-                      assestInputtRequest[index].astDesc = val;
-                    });
-                  },
-                  decoration: InputDecoration(
-                    hintText: 'Asset desc',
-                    hintStyle: tts4GY,
-                    isDense: true,
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8)),
-                  ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: TextFormField(
-                  // readOnly: true,
-                  style: tts4B,
-                  onChanged: (val) {
-                    setState(() {
-                      assestInputtRequest[index].astCat = int.tryParse(val);
-                    });
-                  },
-                  decoration: InputDecoration(
-                    hintText: 'Asset cat',
-                    hintStyle: tts4GY,
-                    isDense: true,
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8)),
-                  ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: TextFormField(
-                  // readOnly: true,
-                  style: tts4B,
-                  onChanged: (val) {
-                    setState(() {
-                      assestInputtRequest[index].astQty = int.tryParse(val);
-                    });
-                  },
-                  decoration: InputDecoration(
-                    hintText: 'Asset Qty',
-                    hintStyle: tts4GY,
-                    isDense: true,
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8)),
-                  ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: TextFormField(
-                  // readOnly: true,
-                  style: tts4B,
-                  onChanged: (val) {
-                    setState(() {
-                      assestInputtRequest[index].astCondition = val;
-                    });
-                  },
-                  decoration: InputDecoration(
-                    hintText: 'Asset condition',
-                    hintStyle: tts4GY,
-                    isDense: true,
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8)),
-                  ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: TextFormField(
-                  // readOnly: true,
-                  style: tts4B,
-
-                  onChanged: (val) {
-                    setState(() {
-                      assestInputtRequest[index].astRemarks = val;
-                    });
-                  },
-                  decoration: InputDecoration(
-                    hintText: 'Asset remark',
-                    hintStyle: tts4GY,
-                    isDense: true,
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8)),
-                  ),
-                ),
-              ),
-              // Padding(
-              //   padding: const EdgeInsets.all(8.0),
-              //   child: TextFormField(
-              //     readOnly: true,
-              //     initialValue: userIDs,
-              //     style: tts4B,
-              //     onChanged: (userIDs) {
-              //       setState(() {
-              //         assestInputtRequest[index].createdBy =
-              //             int.tryParse(userIDs);
-              //       });
-              //       debugPrint(userIDs);
-              //     },
-              //     decoration: InputDecoration(
-              //       hintText: 'Created By',
-              //       hintStyle: tts4GY,
-              //       isDense: true,
-              //       border: OutlineInputBorder(
-              //           borderRadius: BorderRadius.circular(8)),
-              //     ),
-              //   ),
-              // ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: TextFormField(
-                  style: tts4B,
-                  onChanged: (val) {
-                    setState(() {
-                      assestInputtRequest[index].astprdate = val;
-                    });
-                  },
-                  decoration: InputDecoration(
-                    // suffix: InkWell(
-                    //   onTap: () {
-                    //     showcalander();
-                    //   },
-                    //   child: Card(
-                    //     color: appColorG.withOpacity(0.8),
-                    //     child: Padding(
-                    //       padding: const EdgeInsets.all(2.0),
-                    //       child: Text(
-                    //         'Select The Date',
-                    //         style: tts2W,
-                    //       ),
-                    //     ),
-                    //   ),
-                    // ),
-                    hintText: 'DD-MM-YYYY',
-                    hintStyle: tts4GY,
-                    isDense: true,
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8)),
-                  ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: TextFormField(
-                  // readOnly: true,
-                  style: tts4B,
-
-                  onChanged: (val) {
-                    setState(() {
-                      assestInputtRequest[index].astWard = int.tryParse(val);
-                    });
-                  },
-
-                  decoration: InputDecoration(
-                    hintText: 'Asset ward',
-                    hintStyle: tts4GY,
-                    isDense: true,
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8)),
-                  ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: InkWell(
-                    onTap: () {
-                      imagePicker
-                          .pickImage(source: ImageSource.camera)
-                          .then((value) {
-                        setState(() {
-                          assestInputtRequest[index].astimage = value!.path;
-                        });
-                        debugPrint(assestInputtRequest[index].astimage);
-                      });
+                actions: [
+                  IconButton(
+                    onPressed: () {
+                      if (index == 0) {
+                        () {};
+                      } else {
+                        onDelete(index);
+                      }
                     },
-                    child: assestInputtRequest[index].astimage == null
-                        ? Padding(
-                            padding: const EdgeInsets.all(10.0),
-                            child: Container(
-                              height: MediaQuery.of(context).size.width / 1.0,
-                              width: MediaQuery.of(context).size.width / 1.2,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(25),
-                                border: Border(
-                                  bottom:
-                                      BorderSide(color: appColorG, width: 3),
-                                  top: BorderSide(color: appColorG, width: 3),
-                                  left: BorderSide(color: appColorG, width: 3),
-                                  right: BorderSide(color: appColorG, width: 3),
-                                ),
-                                shape: BoxShape.rectangle,
-                                color: appColorW,
-                              ),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: const [
-                                  Icon(
-                                    Icons.add_a_photo_outlined,
-                                    size: 50,
-                                    color: appColorG,
-                                  ),
-                                  Text('Click Here to Add Photo')
-                                ],
-                              ),
-                              padding: const EdgeInsets.all(8.0),
-                            ),
-                          )
-                        : Padding(
-                            padding: const EdgeInsets.all(10.0),
-                            child: Container(
-                              height: MediaQuery.of(context).size.width / 1.0,
-                              width: MediaQuery.of(context).size.width / 1.2,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(25),
-                                border: const Border(
-                                  bottom:
-                                      BorderSide(color: appColorG, width: 3),
-                                  top: BorderSide(color: appColorG, width: 3),
-                                  left: BorderSide(color: appColorG, width: 3),
-                                  right: BorderSide(color: appColorG, width: 3),
-                                ),
-
-                                // image: DecorationImage(
-                                //     fit: BoxFit.contain,
-                                //     image: FileImage(File(
-                                //         assestInputtRequest[index]
-                                //             .astimage
-                                //             .toString()))),
-                                shape: BoxShape.rectangle,
-                                // color: Colors.black12,
-                              ),
-                              child: Center(
-                                  child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: const [
-                                  // Container(
-                                  //   height: 150,
-                                  //   width: 150,
-                                  //   child: Image(
-                                  //       image: FileImage(File(
-                                  //           assestInputtRequest[index]
-                                  //               .astimage
-                                  //               .toString()))),
-                                  // ),
-                                  Text('Uploaded'),
-                                ],
-                              )),
-                              padding: const EdgeInsets.all(8.0),
-                            ))),
+                    icon: index == 0
+                        ? SizedBox()
+                        : Icon(
+                            Icons.delete,
+                            color: appColorW,
+                          ),
+                  )
+                ],
               ),
-            ],
-          ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: TextFormField(
+                // readOnly: true,
+                style: tts4B,
+                onChanged: (val) {
+                  setState(() {
+                    assestInputtRequest[index].astName = val;
+                  });
+                },
+                decoration: InputDecoration(
+                  hintText: 'Asset Name',
+                  hintStyle: tts4GY,
+                  isDense: true,
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8)),
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: TextFormField(
+                // readOnly: true,
+                style: tts4B,
+                onChanged: (val) {
+                  setState(() {
+                    assestInputtRequest[index].astDesc = val;
+                  });
+                },
+                decoration: InputDecoration(
+                  hintText: 'Asset desc',
+                  hintStyle: tts4GY,
+                  isDense: true,
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8)),
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: TextFormField(
+                // readOnly: true,
+                style: tts4B,
+                onChanged: (val) {
+                  setState(() {
+                    assestInputtRequest[index].astCat = int.tryParse(val);
+                  });
+                },
+                decoration: InputDecoration(
+                  hintText: 'Asset cat',
+                  hintStyle: tts4GY,
+                  isDense: true,
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8)),
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: TextFormField(
+                // readOnly: true,
+                style: tts4B,
+                onChanged: (val) {
+                  setState(() {
+                    assestInputtRequest[index].astQty = int.tryParse(val);
+                  });
+                },
+                decoration: InputDecoration(
+                  hintText: 'Asset Qty',
+                  hintStyle: tts4GY,
+                  isDense: true,
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8)),
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: TextFormField(
+                // readOnly: true,
+                style: tts4B,
+                onChanged: (val) {
+                  setState(() {
+                    assestInputtRequest[index].astCondition = val;
+                  });
+                },
+                decoration: InputDecoration(
+                  hintText: 'Asset condition',
+                  hintStyle: tts4GY,
+                  isDense: true,
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8)),
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: TextFormField(
+                // readOnly: true,
+                style: tts4B,
+
+                onChanged: (val) {
+                  setState(() {
+                    assestInputtRequest[index].astRemarks = val;
+                  });
+                },
+                decoration: InputDecoration(
+                  hintText: 'Asset remark',
+                  hintStyle: tts4GY,
+                  isDense: true,
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8)),
+                ),
+              ),
+            ),
+            // Padding(
+            //   padding: const EdgeInsets.all(8.0),
+            //   child: TextFormField(
+            //     readOnly: true,
+            //     initialValue: userIDs,
+            //     style: tts4B,
+            //     onChanged: (userIDs) {
+            //       setState(() {
+            //         assestInputtRequest[index].createdBy =
+            //             int.tryParse(userIDs);
+            //       });
+            //       debugPrint(userIDs);
+            //     },
+            //     decoration: InputDecoration(
+            //       hintText: 'Created By',
+            //       hintStyle: tts4GY,
+            //       isDense: true,
+            //       border: OutlineInputBorder(
+            //           borderRadius: BorderRadius.circular(8)),
+            //     ),
+            //   ),
+            // ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: TextFormField(
+                style: tts4B,
+                onChanged: (val) {
+                  setState(() {
+                    assestInputtRequest[index].astprdate = val;
+                  });
+                },
+                decoration: InputDecoration(
+                  // suffix: InkWell(
+                  //   onTap: () {
+                  //     showcalander();
+                  //   },
+                  //   child: Card(
+                  //     color: appColorG.withOpacity(0.8),
+                  //     child: Padding(
+                  //       padding: const EdgeInsets.all(2.0),
+                  //       child: Text(
+                  //         'Select The Date',
+                  //         style: tts2W,
+                  //       ),
+                  //     ),
+                  //   ),
+                  // ),
+                  hintText: 'DD-MM-YYYY',
+                  hintStyle: tts4GY,
+                  isDense: true,
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8)),
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: TextFormField(
+                // readOnly: true,
+                style: tts4B,
+
+                onChanged: (val) {
+                  setState(() {
+                    assestInputtRequest[index].astWard = int.tryParse(val);
+                  });
+                },
+
+                decoration: InputDecoration(
+                  hintText: 'Asset ward',
+                  hintStyle: tts4GY,
+                  isDense: true,
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8)),
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: InkWell(
+                  onTap: () {
+                    imagePicker
+                        .pickImage(source: ImageSource.camera)
+                        .then((value) {
+                      setState(() {
+                        assestInputtRequest[index].astimage = value!.path;
+                      });
+                      debugPrint(assestInputtRequest[index].astimage);
+                    });
+                  },
+                  child: assestInputtRequest[index].astimage == null
+                      ? Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: Container(
+                            height: MediaQuery.of(context).size.width / 1.0,
+                            width: MediaQuery.of(context).size.width / 1.2,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(25),
+                              border: Border(
+                                bottom: BorderSide(color: appColorG, width: 3),
+                                top: BorderSide(color: appColorG, width: 3),
+                                left: BorderSide(color: appColorG, width: 3),
+                                right: BorderSide(color: appColorG, width: 3),
+                              ),
+                              shape: BoxShape.rectangle,
+                              color: appColorW,
+                            ),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: const [
+                                Icon(
+                                  Icons.add_a_photo_outlined,
+                                  size: 50,
+                                  color: appColorG,
+                                ),
+                                Text('Click Here to Add Photo')
+                              ],
+                            ),
+                            padding: const EdgeInsets.all(8.0),
+                          ),
+                        )
+                      : Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: Container(
+                            height: MediaQuery.of(context).size.width / 1.0,
+                            width: MediaQuery.of(context).size.width / 1.35,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(25),
+                              border: const Border(
+                                bottom: BorderSide(color: appColorG, width: 3),
+                                top: BorderSide(color: appColorG, width: 3),
+                                left: BorderSide(color: appColorG, width: 3),
+                                right: BorderSide(color: appColorG, width: 3),
+                              ),
+
+                              image: DecorationImage(
+                                  fit: BoxFit.contain,
+                                  image: FileImage(File(
+                                    assestInputtRequest[index]
+                                        .astimage
+                                        .toString(),
+                                  ))),
+                              shape: BoxShape.rectangle,
+                              // color: Colors.black12,
+                            ),
+                            child: Center(
+                                child: Column(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: const [
+                                Text(
+                                  'Uploaded',
+                                  style: tts4W,
+                                ),
+                              ],
+                            )),
+                            padding: const EdgeInsets.all(8.0),
+                          ))),
+            ),
+          ],
         ));
   }
 
@@ -901,8 +889,8 @@ class _PreVerificationState extends State<PreVerification> {
 
   buildBNB(index) {
     return Container(
-      height: 50,
-      color: Colors.transparent,
+      height: 45,
+      color: appColorG,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
