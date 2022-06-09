@@ -947,7 +947,7 @@ class _PreVerificationState extends State<PreVerification> {
   }
 
   buildBNB(index) {
-    return Container(
+    return SizedBox(
       height: 45,
       // color: appColorG.withOpacity(0.5),
       child: Row(
