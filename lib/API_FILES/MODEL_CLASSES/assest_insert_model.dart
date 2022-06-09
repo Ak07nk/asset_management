@@ -4,12 +4,12 @@ import 'dart:convert';
 class AssestInsertRequest {
   String? astName;
   String? astDesc;
-  int? astCat;
+  String? astCat;
   int? astQty;
   String? astCondition;
   String? astRemarks;
   int? createdBy;
-  int? astWard;
+  String? astWard;
   String? astprdate;
   String? astimage;
   AssestInsertRequest(
@@ -27,12 +27,12 @@ class AssestInsertRequest {
   AssestInsertRequest copyWith(
       {String? astName,
       String? astDesc,
-      int? astCat,
+      String? astCat,
       int? astQty,
       String? astCondition,
       String? astRemarks,
       int? createdBy,
-      int? astWard,
+      String? astWard,
       String? astprdate,
       String? astimage}) {
     return AssestInsertRequest(
@@ -90,14 +90,14 @@ class AssestInsertRequest {
     return AssestInsertRequest(
       astName: map['ast_name'],
       astDesc: map['ast_desc'],
-      astCat: map['ast_cat']?.toInt(),
+      astCat: map['ast_cat'],
       astQty: map['ast_qty']?.toInt(),
       astCondition: map['ast_condition'],
       astRemarks: map['ast_remarks'],
       createdBy: map['created_by']?.toInt(),
-      astWard: map['ast_ward']?.toInt(),
-      astprdate: map['ast_pr_date']?.toInt(),
-      astimage: map['ast_image']?.toInt(),
+      astWard: map['ast_ward'],
+      astprdate: map['ast_pr_date'],
+      astimage: map['ast_image'],
     );
   }
 

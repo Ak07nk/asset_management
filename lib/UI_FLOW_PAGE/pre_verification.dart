@@ -1,3 +1,5 @@
+// ignore_for_file: unnecessary_string_escapes
+
 import 'dart:io';
 
 import 'package:asset_management/API_FILES/MODEL_CLASSES/assest_insert_model.dart';
@@ -539,7 +541,7 @@ class _PreVerificationState extends State<PreVerification> {
                 style: tts4B,
                 onChanged: (val) {
                   setState(() {
-                    assestInputtRequest[index].astCat = int.tryParse(val);
+                    assestInputtRequest[index].astCat = val;
                   });
                 },
                 decoration: InputDecoration(
@@ -554,6 +556,7 @@ class _PreVerificationState extends State<PreVerification> {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: TextFormField(
+                keyboardType: TextInputType.number,
                 // readOnly: true,
                 style: tts4B,
                 onChanged: (val) {
@@ -631,39 +634,37 @@ class _PreVerificationState extends State<PreVerification> {
             //     ),
             //   ),
             // ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: TextFormField(
-                style: tts4B,
-                onChanged: (val) {
-                  setState(() {
-                    assestInputtRequest[index].astprdate = val;
-                  });
-                },
-                decoration: InputDecoration(
-                  // suffix: InkWell(
-                  //   onTap: () {
-                  //     showcalander();
-                  //   },
-                  //   child: Card(
-                  //     color: appColorG.withOpacity(0.8),
-                  //     child: Padding(
-                  //       padding: const EdgeInsets.all(2.0),
-                  //       child: Text(
-                  //         'Select The Date',
-                  //         style: tts2W,
-                  //       ),
-                  //     ),
-                  //   ),
-                  // ),
-                  labelText: 'DD-MM-YYYY',
-                  labelStyle: tts4G,
-                  isDense: true,
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8)),
-                ),
-              ),
-            ),
+
+            // Padding(
+            //   padding: const EdgeInsets.all(8.0),
+            //   child: TextFormField(
+            //     keyboardType: TextInputType.datetime,
+            //     style: tts4B,
+            //     readOnly: true,
+
+            //     onTap: () {
+            //       showcalander().then((value) {
+            //         setState(() {
+            //           assestInputtRequest[index].astprdate = value;
+            //         });
+            //       });
+            //     },
+            //     // controller:
+
+            //     // onChanged: (val) async {
+            //     //   setState(() {
+            //     //     assestInputtRequest[index].astprdate = val;
+            //     //   });
+            //     // },
+            //     decoration: InputDecoration(
+            //       labelText: 'DD-MM-YYYY',
+            //       labelStyle: tts4G,
+            //       isDense: true,
+            //       border: OutlineInputBorder(
+            //           borderRadius: BorderRadius.circular(8)),
+            //     ),
+            //   ),
+            // ),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: TextFormField(
@@ -672,7 +673,7 @@ class _PreVerificationState extends State<PreVerification> {
 
                 onChanged: (val) {
                   setState(() {
-                    assestInputtRequest[index].astWard = int.tryParse(val);
+                    assestInputtRequest[index].astWard = val;
                   });
                 },
 
@@ -682,6 +683,55 @@ class _PreVerificationState extends State<PreVerification> {
                   isDense: true,
                   border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(8)),
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Container(
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    border: Border.all(color: appColorG, width: 2)),
+                height: 58,
+                width: MediaQuery.of(context).size.width,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      assestInputtRequest[index].astprdate == null
+                          ? Text(
+                              'DD-MM-YYYY',
+                              style: tts4G,
+                            )
+                          : Text(
+                              assestInputtRequest[index].astprdate.toString(),
+                              style: tts4B,
+                            ),
+                      InkWell(
+                        onTap: () {
+                          showcalander().then((value) {
+                            setState(() {
+                              assestInputtRequest[index].astprdate = value;
+                            });
+                          });
+                        },
+                        child: Padding(
+                            padding: const EdgeInsets.all(2.0),
+                            child: Card(
+                              elevation: 8,
+                              color: appColorG,
+                              child: Padding(
+                                padding: const EdgeInsets.all(5.0),
+                                child: Text(
+                                  'Select The Date',
+                                  style: tts2W,
+                                ),
+                              ),
+                            )),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -776,19 +826,19 @@ class _PreVerificationState extends State<PreVerification> {
   List<AssestInsertRequest> assestInputtRequest = [
     AssestInsertRequest(),
   ];
-  // Future showcalander() async {
-  //   final initialDate = DateTime.now();
-  //   final newDate = await showDatePicker(
-  //       context: context,
-  //       initialDate: sDate ?? initialDate,
-  //       firstDate: DateTime(DateTime.now().year - 15),
-  //       lastDate: DateTime(DateTime.now().year + 15));
-  //   if (newDate == null) return;
-  //   setState(() => sDate = newDate);
-  //   debugPrint(sDate.toString());
-  //   dateCtl.text = '${sDate!.day}-${sDate!.month}-${sDate!.year}';
-  //   datetime = '${sDate!.day}-${sDate!.month}-${sDate!.year}';
-  // }
+  Future showcalander() async {
+    final initialDate = DateTime.now();
+    final newDate = await showDatePicker(
+        context: context,
+        initialDate: sDate ?? initialDate,
+        firstDate: DateTime(DateTime.now().year - 15),
+        lastDate: DateTime(DateTime.now().year + 15));
+    if (newDate == null) return;
+    setState(() => sDate = newDate);
+    debugPrint(sDate.toString());
+    dateCtl.text = '${sDate!.day}-${sDate!.month}-${sDate!.year}';
+    return datetime = '${sDate!.day}-${sDate!.month}-${sDate!.year}';
+  }
 
   buildTable() {
     return Padding(
@@ -916,28 +966,39 @@ class _PreVerificationState extends State<PreVerification> {
                     onPressed: () async {
                       if (assestInputtRequest[index - 1].astName == null) {
                         showFlutterTost('Enter the Asset Name');
-                      } else if (assestInputtRequest[index - 1].astDesc ==
-                          null) {
-                        showFlutterTost('Enter the Asset Desc');
-                      } else if (assestInputtRequest[index - 1].astCat ==
-                          null) {
-                        showFlutterTost('Enter the Asset Cat');
                       } else if (assestInputtRequest[index - 1].astQty ==
                           null) {
                         showFlutterTost('Enter the Asset Qty');
-                      } else if (assestInputtRequest[index - 1].astCondition ==
-                          null) {
-                        showFlutterTost('Enter the Asset Condition');
-                      } else if (assestInputtRequest[index - 1].astRemarks ==
-                          null) {
-                        showFlutterTost('Enter the Asset Remarks');
                       } else if (assestInputtRequest[index - 1].astprdate ==
                           null) {
                         showFlutterTost('Enter the Asset Pr Date');
-                      } else if (assestInputtRequest[index - 1].astWard ==
-                          null) {
-                        showFlutterTost('Enter the Asset Ward');
-                      } else if (assestInputtRequest[index - 1].astimage ==
+                      } else if (!assestInputtRequest[index - 1]
+                          .astprdate!
+                          .contains("-")) {
+                        showFlutterTost('Enter the valid Date DD-MM-YYYY');
+                      }
+                      // else if (assestInputtRequest[index - 1]
+                      //     .astDesc!
+                      //     .isEmpty) {
+                      //   showFlutterTost('Enter the Asset Desc');
+                      // }
+                      // else if (assestInputtRequest[index - 1].astCat ==
+                      //     null) {
+                      //   showFlutterTost('Enter the Asset Cat');
+                      // }
+                      // else if (assestInputtRequest[index - 1].astCondition ==
+                      //     null) {
+                      //   showFlutterTost('Enter the Asset Condition');
+                      // }
+                      //  else if (assestInputtRequest[index - 1].astRemarks ==
+                      //     null) {
+                      //   showFlutterTost('Enter the Asset Remarks');
+                      // }
+                      //  else if (assestInputtRequest[index - 1].astWard ==
+                      //     null) {
+                      //   showFlutterTost('Enter the Asset Ward');
+                      // }
+                      else if (assestInputtRequest[index - 1].astimage ==
                           null) {
                         showFlutterTost('Upload the photo');
                       } else {
@@ -960,10 +1021,11 @@ class _PreVerificationState extends State<PreVerification> {
                     },
                     child: isSubmit
                         ? Padding(
-                            padding: const EdgeInsets.all(8.0),
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 10, vertical: 3),
                             child: CircularProgressIndicator(
                               color: appColorW,
-                              strokeWidth: 2,
+                              strokeWidth: 4,
                             ),
                           )
                         : Text(
