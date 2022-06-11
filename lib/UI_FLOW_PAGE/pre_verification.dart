@@ -87,6 +87,7 @@ class _PreVerificationState extends State<PreVerification> {
   fAB() {
     if (isopened == true) {
       return FloatingActionButton(
+        isExtended: true,
         backgroundColor: appColorG,
         onPressed: () {
           onAddForm();
@@ -94,7 +95,7 @@ class _PreVerificationState extends State<PreVerification> {
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Text(
-            'Add Form',
+            'Add Row',
             textAlign: TextAlign.center,
             style: tts2W,
           ),
@@ -315,94 +316,6 @@ class _PreVerificationState extends State<PreVerification> {
       padding: const EdgeInsets.all(8.0),
       child: Column(
         children: [
-          // Card(
-          //   elevation: 5,
-          //   shadowColor: appColorG,
-          //   child: ExpansionTile(
-          //     initiallyExpanded: false,
-          //     title: Text(
-          //       'Information',
-          //       style: tts5B,
-          //     ),
-          //     leading: Container(
-          //       alignment: Alignment.center,
-          //       height: 28,
-          //       width: 28,
-          //       decoration: BoxDecoration(
-          //           borderRadius: BorderRadius.circular(50),
-          //           color: appColorG.withOpacity(0.7)),
-          //       child: Text(
-          //         '1',
-          //         style: tts4W,
-          //       ),
-          //     ),
-          //     children: [
-          //       dividerline(),
-          //       Column(
-          //         children: [
-          //           Padding(
-          //             padding: const EdgeInsets.all(8.0),
-          //             child: TextFormField(
-          //               // readOnly: true,
-          //               style: tts4B,
-          //               decoration: InputDecoration(
-          //                 hintText: 'Name',
-          //                 hintStyle: tts4GY,
-          //                 isDense: true,
-          //                 border: OutlineInputBorder(
-          //                     borderRadius: BorderRadius.circular(8)),
-          //               ),
-          //             ),
-          //           ),
-          //           Padding(
-          //             padding: const EdgeInsets.all(8.0),
-          //             child: TextFormField(
-          //               // readOnly: true,
-          //               style: tts4B,
-          //               decoration: InputDecoration(
-          //                 hintText: 'Mobile No',
-          //                 hintStyle: tts4GY,
-          //                 isDense: true,
-          //                 border: OutlineInputBorder(
-          //                     borderRadius: BorderRadius.circular(8)),
-          //               ),
-          //             ),
-          //           ),
-          //           Padding(
-          //             padding: const EdgeInsets.all(8.0),
-          //             child: TextFormField(
-          //               // readOnly: true,
-          //               style: tts4B,
-          //               decoration: InputDecoration(
-          //                 hintText: 'Pin Code',
-          //                 hintStyle: tts4GY,
-          //                 isDense: true,
-          //                 border: OutlineInputBorder(
-          //                     borderRadius: BorderRadius.circular(8)),
-          //               ),
-          //             ),
-          //           ),
-          //           Padding(
-          //             padding: const EdgeInsets.all(8.0),
-          //             child: TextFormField(
-          //               // readOnly: true,
-          //               style: tts4B,
-          //               maxLength: 500,
-          //               maxLines: 5,
-          //               decoration: InputDecoration(
-          //                 hintText: 'Address',
-          //                 hintStyle: tts4GY,
-          //                 isDense: true,
-          //                 border: OutlineInputBorder(
-          //                     borderRadius: BorderRadius.circular(8)),
-          //               ),
-          //             ),
-          //           ),
-          //         ],
-          //       ),
-          //     ],
-          //   ),
-          // ),
           Card(
             elevation: 5,
             shadowColor: appColorG,
@@ -430,7 +343,16 @@ class _PreVerificationState extends State<PreVerification> {
               ),
               children: [
                 dividerline(),
-                buildforms(),
+                // buildTable(),
+                // buildforms(),
+                // dividerline(),
+                SizedBox(
+                  height: 5,
+                ),
+                dataTable(),
+                SizedBox(
+                  height: 5,
+                ),
                 dividerline(),
                 buildBNB(assestInputtRequest.length),
               ],
@@ -450,6 +372,7 @@ class _PreVerificationState extends State<PreVerification> {
           itemCount: assestInputtRequest.length,
           itemBuilder: (BuildContext context, int index) {
             return assestForm(index);
+            // return addRow(index);
           }),
     );
   }
@@ -612,59 +535,6 @@ class _PreVerificationState extends State<PreVerification> {
                 ),
               ),
             ),
-            // Padding(
-            //   padding: const EdgeInsets.all(8.0),
-            //   child: TextFormField(
-            //     readOnly: true,
-            //     initialValue: userIDs,
-            //     style: tts4B,
-            //     onChanged: (userIDs) {
-            //       setState(() {
-            //         assestInputtRequest[index].createdBy =
-            //             int.tryParse(userIDs);
-            //       });
-            //       debugPrint(userIDs);
-            //     },
-            //     decoration: InputDecoration(
-            //       hintText: 'Created By',
-            //       hintStyle: tts4GY,
-            //       isDense: true,
-            //       border: OutlineInputBorder(
-            //           borderRadius: BorderRadius.circular(8)),
-            //     ),
-            //   ),
-            // ),
-
-            // Padding(
-            //   padding: const EdgeInsets.all(8.0),
-            //   child: TextFormField(
-            //     keyboardType: TextInputType.datetime,
-            //     style: tts4B,
-            //     readOnly: true,
-
-            //     onTap: () {
-            //       showcalander().then((value) {
-            //         setState(() {
-            //           assestInputtRequest[index].astprdate = value;
-            //         });
-            //       });
-            //     },
-            //     // controller:
-
-            //     // onChanged: (val) async {
-            //     //   setState(() {
-            //     //     assestInputtRequest[index].astprdate = val;
-            //     //   });
-            //     // },
-            //     decoration: InputDecoration(
-            //       labelText: 'DD-MM-YYYY',
-            //       labelStyle: tts4G,
-            //       isDense: true,
-            //       border: OutlineInputBorder(
-            //           borderRadius: BorderRadius.circular(8)),
-            //     ),
-            //   ),
-            // ),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: TextFormField(
@@ -861,88 +731,438 @@ class _PreVerificationState extends State<PreVerification> {
                       height: 50,
                       child: Text(
                         'Sl No',
+                        textAlign: TextAlign.center,
                         style: tts3G,
                       ),
                     )
                   ]),
               Column(children: const [
                 Text(
-                  'Property',
+                  'Asset Name',
+                  textAlign: TextAlign.center,
                   style: tts3G,
                 )
               ]),
               Column(children: const [
                 Text(
-                  'Number',
+                  'Asset Qty',
+                  textAlign: TextAlign.center,
+                  style: tts3G,
+                )
+              ]),
+              Column(children: const [
+                Text(
+                  'Ast Pr Date',
+                  textAlign: TextAlign.center,
+                  style: tts3G,
+                )
+              ]),
+              Column(children: const [
+                Text(
+                  'Asset Image',
+                  textAlign: TextAlign.center,
                   style: tts3G,
                 )
               ]),
             ]),
-            TableRow(
-                decoration: BoxDecoration(color: appColorG.withOpacity(0.4)),
-                children: [
-                  Column(children: const [
-                    Text(
-                      '1',
-                      style: tts4B,
-                    )
-                  ]),
-                  Column(children: const [
-                    Text(
-                      'Table',
-                      style: tts4B,
-                    )
-                  ]),
-                  Column(children: [
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: TextFormField(),
-                    )
-                  ]),
-                ]),
-            TableRow(children: [
-              Column(children: const [
-                Text(
-                  '2',
-                  style: tts4B,
-                )
-              ]),
-              Column(children: const [
-                Text(
-                  'Fan',
-                  style: tts4B,
-                )
-              ]),
-              Column(children: [
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: TextFormField(),
-                )
-              ]),
-            ]),
-            TableRow(
-                decoration: BoxDecoration(color: appColorG.withOpacity(0.4)),
-                children: [
-                  Column(children: const [
-                    Text(
-                      '3',
-                      style: tts4B,
-                    )
-                  ]),
-                  Column(children: const [
-                    Text(
-                      'Chair',
-                      style: tts4B,
-                    )
-                  ]),
-                  Column(children: [
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: TextFormField(),
-                    )
-                  ]),
-                ]),
+            addRow(assestInputtRequest.length)
           ]),
+    );
+  }
+
+  addRow(int index) {
+    return TableRow(
+        decoration: BoxDecoration(color: appColorG.withOpacity(0.4)),
+        children: [
+          Column(children: [
+            Text(
+              '$index',
+              style: tts4B,
+            )
+          ]),
+          Column(children: const [
+            Text(
+              'Table',
+              style: tts4B,
+            )
+          ]),
+          Column(children: [
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: TextFormField(),
+            )
+          ]),
+          Column(children: [
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: TextFormField(),
+            )
+          ]),
+          Column(children: [
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: TextFormField(),
+            )
+          ]),
+        ]);
+  }
+
+  dataTable() {
+    return Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 5),
+          child: Container(
+            height: 50,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.only(
+                topRight: Radius.circular(10),
+                topLeft: Radius.circular(10),
+              ),
+            ),
+            // color: appColorG.withOpacity(0.5),
+            child: Row(
+              children: [
+                Expanded(
+                  child: Container(
+                    height: 50,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(10),
+                      ),
+                      border: Border(
+                        bottom: BorderSide(color: appColorG),
+                        top: BorderSide(color: appColorG),
+                        left: BorderSide(color: appColorG),
+                        right: BorderSide(color: appColorG),
+                      ),
+                    ),
+                    child: Center(
+                        child: Padding(
+                      padding: const EdgeInsets.all(3.0),
+                      child: Text(
+                        'SL NO',
+                        style: tts2G,
+                      ),
+                    )),
+                  ),
+                ),
+                Expanded(
+                  child: Container(
+                    height: 50,
+                    decoration: BoxDecoration(
+                      border: Border(
+                        bottom: BorderSide(color: appColorG),
+                        top: BorderSide(color: appColorG),
+                        left: BorderSide(color: appColorG),
+                        right: BorderSide(color: appColorG),
+                      ),
+                    ),
+                    child: Center(
+                        child: Padding(
+                      padding: const EdgeInsets.all(2.0),
+                      child: Text(
+                        'Asset Name',
+                        style: tts2G,
+                      ),
+                    )),
+                  ),
+                ),
+                Expanded(
+                  child: Container(
+                    height: 50,
+                    decoration: BoxDecoration(
+                      border: Border(
+                        bottom: BorderSide(color: appColorG),
+                        top: BorderSide(color: appColorG),
+                        left: BorderSide(color: appColorG),
+                        right: BorderSide(color: appColorG),
+                      ),
+                    ),
+                    child: Center(
+                        child: Padding(
+                      padding: const EdgeInsets.all(3.0),
+                      child: Text(
+                        'Asset Qty',
+                        style: tts2G,
+                      ),
+                    )),
+                  ),
+                ),
+                Expanded(
+                  child: Container(
+                    height: 50,
+                    decoration: BoxDecoration(
+                      border: Border(
+                        bottom: BorderSide(color: appColorG),
+                        top: BorderSide(color: appColorG),
+                        left: BorderSide(color: appColorG),
+                        right: BorderSide(color: appColorG),
+                      ),
+                    ),
+                    child: Center(
+                        child: Padding(
+                      padding: const EdgeInsets.all(3.0),
+                      child: Text(
+                        'Asset Date',
+                        style: tts2G,
+                      ),
+                    )),
+                  ),
+                ),
+                Expanded(
+                  child: Container(
+                    height: 50,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.only(
+                        topRight: Radius.circular(10),
+                      ),
+                      border: Border(
+                        bottom: BorderSide(color: appColorG),
+                        top: BorderSide(color: appColorG),
+                        left: BorderSide(color: appColorG),
+                        right: BorderSide(color: appColorG),
+                      ),
+                    ),
+                    child: Center(
+                        child: Padding(
+                      padding: const EdgeInsets.all(1.0),
+                      child: Text(
+                        'Asset Image',
+                        style: tts2G,
+                      ),
+                    )),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+        assetdata(),
+      ],
+    );
+  }
+
+  assetdata() {
+    return SingleChildScrollView(
+      child: ListView.builder(
+          physics: NeverScrollableScrollPhysics(),
+          scrollDirection: Axis.vertical,
+          shrinkWrap: true,
+          itemCount: assestInputtRequest.length,
+          itemBuilder: (BuildContext context, int index) {
+            return assestTable(index);
+            // return addRow(index);
+          }),
+    );
+  }
+
+  assestTable(index) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 5),
+      child: Container(
+          height: 40,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.only(
+              topRight: Radius.circular(10),
+            ),
+          ),
+          // color: appColorG.withOpacity(0.5),
+          child: Row(children: [
+            Expanded(
+              child: Container(
+                height: 50,
+                decoration: BoxDecoration(
+                  border: Border(
+                    bottom: BorderSide(color: appColorG),
+                    top: BorderSide(color: appColorG),
+                    left: BorderSide(color: appColorG),
+                    right: BorderSide(color: appColorG),
+                  ),
+                ),
+                child: Center(
+                    child: Padding(
+                  padding: const EdgeInsets.all(3.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Expanded(
+                        child: IconButton(
+                          onPressed: () {
+                            if (index == 0) {
+                              () {};
+                            } else {
+                              onDelete(index);
+                            }
+                          },
+                          icon: index == 0
+                              ? SizedBox()
+                              : Icon(
+                                  Icons.delete,
+                                  size: 15,
+                                  color: appColorG,
+                                ),
+                        ),
+                      ),
+                      Expanded(child: Text('${index + 1}')),
+                    ],
+                  ),
+                )),
+              ),
+            ),
+            Expanded(
+              child: Container(
+                height: 50,
+                decoration: BoxDecoration(
+                  border: Border(
+                    bottom: BorderSide(color: appColorG),
+                    top: BorderSide(color: appColorG),
+                    left: BorderSide(color: appColorG),
+                    right: BorderSide(color: appColorG),
+                  ),
+                ),
+                child: Center(
+                    child: Padding(
+                  padding: const EdgeInsets.all(3.0),
+                  child: TextFormField(
+                    maxLines: 1,
+                    style: tts3B,
+                    onChanged: (val) {
+                      setState(() {
+                        assestInputtRequest[index].astName = val;
+                      });
+                    },
+                    decoration: InputDecoration(isDense: true),
+                  ),
+                )),
+              ),
+            ),
+            Expanded(
+              child: Container(
+                height: 50,
+                decoration: BoxDecoration(
+                  border: Border(
+                    bottom: BorderSide(color: appColorG),
+                    top: BorderSide(color: appColorG),
+                    left: BorderSide(color: appColorG),
+                    right: BorderSide(color: appColorG),
+                  ),
+                ),
+                child: Center(
+                    child: Padding(
+                  padding: const EdgeInsets.all(3.0),
+                  child: TextFormField(
+                    style: tts3B,
+                    keyboardType: TextInputType.number,
+                    onChanged: (val) {
+                      setState(() {
+                        assestInputtRequest[index].astQty = int.tryParse(val);
+                      });
+                    },
+                    decoration: InputDecoration(isDense: true),
+                  ),
+                )),
+              ),
+            ),
+            Expanded(
+              child: Container(
+                height: 50,
+                decoration: BoxDecoration(
+                  border: Border(
+                    bottom: BorderSide(color: appColorG),
+                    top: BorderSide(color: appColorG),
+                    left: BorderSide(color: appColorG),
+                    right: BorderSide(color: appColorG),
+                  ),
+                ),
+                child: Center(
+                    child: Padding(
+                  padding: const EdgeInsets.all(3.0),
+                  child: InkWell(
+                    onTap: () {
+                      showcalander().then((value) {
+                        setState(() {
+                          assestInputtRequest[index].astprdate = value;
+                        });
+                      });
+                    },
+                    child: Padding(
+                        padding: const EdgeInsets.all(2.0),
+                        child: Padding(
+                          padding: const EdgeInsets.all(5.0),
+                          child: assestInputtRequest[index].astprdate == null
+                              ? Text(
+                                  'Select',
+                                  style: tts2G,
+                                )
+                              : Text(
+                                  assestInputtRequest[index]
+                                      .astprdate
+                                      .toString(),
+                                  style: tts1B,
+                                ),
+                        )),
+                  ),
+                )),
+              ),
+            ),
+            Expanded(
+                child: Container(
+              height: 50,
+              decoration: BoxDecoration(
+                border: Border(
+                  bottom: BorderSide(color: appColorG),
+                  top: BorderSide(color: appColorG),
+                  left: BorderSide(color: appColorG),
+                  right: BorderSide(color: appColorG),
+                ),
+              ),
+              child: Center(
+                  child: Padding(
+                      padding: const EdgeInsets.all(3.0),
+                      child: InkWell(
+                        onTap: () {
+                          imagePicker
+                              .pickImage(source: ImageSource.camera)
+                              .then((value) {
+                            setState(() {
+                              assestInputtRequest[index].astimage = value!.path;
+                            });
+                            debugPrint(assestInputtRequest[index].astimage);
+                          });
+                        },
+                        child: assestInputtRequest[index].astimage == null
+                            ? SizedBox(
+                                height: 50,
+                                width: 50,
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: const [
+                                    Text(
+                                      'Upload',
+                                      style: tts2G,
+                                    )
+                                  ],
+                                ),
+                              )
+                            : Container(
+                                height: 50,
+                                width: 50,
+                                decoration: BoxDecoration(
+                                  image: DecorationImage(
+                                      fit: BoxFit.contain,
+                                      image: FileImage(File(
+                                        assestInputtRequest[index]
+                                            .astimage
+                                            .toString(),
+                                      ))),
+                                  shape: BoxShape.rectangle,
+                                  // color: Colors.black12,
+                                ),
+                              ),
+                      ))),
+            ))
+          ])),
     );
   }
 
