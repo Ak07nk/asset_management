@@ -1,8 +1,9 @@
 import 'package:asset_management/UTILS/color_const.dart';
+import 'package:asset_management/UTILS/text_const.dart';
 import 'package:asset_management/UTILS/text_style_const.dart';
 import 'package:flutter/material.dart';
 
-import '../UTILS/text_const.dart';
+
 
 class RepoetPage extends StatefulWidget {
   const RepoetPage({Key? key}) : super(key: key);

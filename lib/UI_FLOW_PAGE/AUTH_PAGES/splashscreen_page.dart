@@ -89,7 +89,7 @@ class _SplashScreenState extends State<SplashScreen> {
             width: 250,
             child: const Image(
               image: AssetImage(appLogo),
-              fit: BoxFit.cover,
+              fit: BoxFit.fill,
             ),
           ),
           const SizedBox(

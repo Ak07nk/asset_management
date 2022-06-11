@@ -1,9 +1,8 @@
 import 'package:asset_management/UTILS/color_const.dart';
+import 'package:asset_management/UTILS/text_const.dart';
 import 'package:asset_management/UTILS/text_style_const.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
-import '../UTILS/text_const.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -56,19 +55,33 @@ class _HomePageState extends State<HomePage> {
       centerTitle: false,
       shadowColor: appColorW,
       actions: [
-        IconButton(
-            onPressed: () async {
-              SharedPreferences preferences =
-                  await SharedPreferences.getInstance();
-              await preferences.clear();
-              Navigator.of(context)
-                  .pushNamedAndRemoveUntil("LoginPage", (route) => false);
-            },
-            icon: Icon(
-              Icons.logout_outlined,
-              size: 22,
-              color: appColorG,
-            ))
+        // InkWell(
+        //   onTap: () async {
+        //     SharedPreferences preferences =
+        //         await SharedPreferences.getInstance();
+        //     await preferences.clear();
+        //     Navigator.of(context)
+        //         .pushNamedAndRemoveUntil("LoginPage", (route) => false);
+        //   },
+        //   child: Icon(
+        //     Icons.logout_outlined,
+        //     size: 22,
+        //     color: appColorG,
+        //   ),
+        // ),
+
+        InkWell(
+          onTap: () {
+            Navigator.pushNamed(context, 'ProfilePage');
+          },
+          child: Icon(
+            Icons.person,
+            color: appColorG,
+          ),
+        ),
+        SizedBox(
+          width: 5,
+        )
       ],
     );
   }
