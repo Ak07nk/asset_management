@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:developer';
-
 import 'package:asset_management/API_FILES/MODEL_CLASSES/report_model.dart';
 import 'package:asset_management/API_FILES/api_calls.dart';
 import 'package:asset_management/UTILS/color_const.dart';
@@ -123,19 +122,27 @@ class _ReportPageState extends State<ReportPage> {
       // 'Asset Remarks', //9
     ];
 
-    return DataTable(
-      columns: getColumns(columns),
-      rows: getRows(
-        reportResp!.data!.reports,
+    return Padding(
+      padding: const EdgeInsets.all(10.0),
+      child: DataTable(
+        border: TableBorder.all(color: appColorG, width: 1),
+        sortAscending: false,
+        columns: getColumns(columns),
+        rows: getRows(
+          reportResp!.data!.reports,
+        ),
       ),
     );
   }
 
   List<DataColumn> getColumns(List<String> columns) => columns
       .map((String column) => DataColumn(
-            label: Text(
-              column,
-              style: tts4G,
+            label: Container(
+              alignment: Alignment.center,
+              child: Text(
+                column,
+                style: tts4G,
+              ),
             ),
           ))
       .toList();
@@ -159,9 +166,12 @@ class _ReportPageState extends State<ReportPage> {
 
   List<DataCell> getCells(List<dynamic> cells, reports) => cells
       .map((data) => DataCell(
-            Text(
-              '$data',
-              style: tts3B,
+            Container(
+              alignment: Alignment.center,
+              child: Text(
+                '$data',
+                style: tts3B,
+              ),
             ),
             //      onTap: () {
             //   if ("$data" == reports!.id) {

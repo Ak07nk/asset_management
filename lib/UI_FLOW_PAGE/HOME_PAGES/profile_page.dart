@@ -111,42 +111,42 @@ class _ProfilePageState extends State<ProfilePage> {
     return Column(
       children: [
         Card(
-          elevation: 5,
+          elevation: 3,
           child: ListTile(
-            leading: Text(
-              "Name:",
+            title: Text(
+              "Name",
               style: tts2G,
             ),
             dense: true,
-            title: Text(
+            subtitle: Text(
               userNamees! + " " + userLastNamees!,
               style: tts4B,
             ),
           ),
         ),
         Card(
-          elevation: 5,
+          elevation: 3,
           child: ListTile(
-            leading: Text(
-              "Mobile No:",
+            title: Text(
+              "Mobile No",
               style: tts2G,
             ),
             dense: true,
-            title: Text(
+            subtitle: Text(
               userNum!,
               style: tts4B,
             ),
           ),
         ),
         Card(
-          elevation: 5,
+          elevation: 3,
           child: ListTile(
-            leading: Text(
-              "Email Id:",
+            title: Text(
+              "Email Id",
               style: tts2G,
             ),
             dense: true,
-            title: Text(
+            subtitle: Text(
               userEmailIds!,
               style: tts4B,
             ),
@@ -157,7 +157,7 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   logOut() {
-    return Row(
+    return Column(
       children: [
         CusTextButton('Reset Password'),
         InkWell(
