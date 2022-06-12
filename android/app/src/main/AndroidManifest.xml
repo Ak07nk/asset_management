@@ -2,7 +2,7 @@
     package="com.example.asset_management">
    <uses-permission android:name="android.permission.INTERNET"/>
    <application
-        android:label="asset_management"
+        android:label="Asset Management"
         android:name="${applicationName}"
         android:icon="@mipmap/launcher_icon">
         <activity

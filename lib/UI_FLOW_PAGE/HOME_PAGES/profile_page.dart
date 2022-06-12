@@ -1,6 +1,8 @@
+import 'package:asset_management/STATELESS_WIDGET/text_button.dart';
 import 'package:asset_management/UTILS/color_const.dart';
 import 'package:asset_management/UTILS/text_style_const.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../UTILS/text_const.dart';
 
@@ -12,12 +14,37 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+  String? userIds;
+  String? userNamees;
+  String? userLastNamees;
+  String? userEmailIds;
+  String? userNum;
+  @override
+  void initState() {
+    // TODO: implement initState
+    getSharedPreferences();
+    super.initState();
+  }
+
+  Future getSharedPreferences() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      userIds = prefs.getString("Uid");
+      userNamees = prefs.getString("UFname");
+      userLastNamees = prefs.getString("ULname");
+      userEmailIds = prefs.getString("UEmailId");
+      userNum = prefs.getString("UEMobile");
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
         appBar: buildAppbar(),
-        body: buildBody(),
+        body: userIds == null
+            ? Center(child: CircularProgressIndicator())
+            : buildBody(),
       ),
     );
   }
@@ -48,17 +75,101 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   buildBody() {
+    return ListView(
+      children: [
+        profileImage(),
+        profileList(),
+        SizedBox(
+          height: 50,
+        ),
+        logOut()
+      ],
+    );
+  }
+
+  Container profileImage() {
     return Container(
-      height: 150,
+      height: 200,
       width: MediaQuery.of(context).size.width,
-      color: appColorG,
-      child: CircleAvatar(
-          maxRadius: 20,
-          minRadius: 20,
-          child: Image(
-            image: NetworkImage(
-                'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png'),
-          )),
+      color: appColorG.withOpacity(0.3),
+      child: Center(
+        child: Container(
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(100),
+              color: Colors.black,
+              image: DecorationImage(
+                  image: NetworkImage(
+                      'https://cdn.pixabay.com/photo/2018/11/13/21/43/avatar-3814049_960_720.png'))),
+          height: 180,
+          width: 180,
+        ),
+      ),
+    );
+  }
+
+  profileList() {
+    return Column(
+      children: [
+        Card(
+          elevation: 5,
+          child: ListTile(
+            leading: Text(
+              "Name:",
+              style: tts2G,
+            ),
+            dense: true,
+            title: Text(
+              userNamees! + " " + userLastNamees!,
+              style: tts4B,
+            ),
+          ),
+        ),
+        Card(
+          elevation: 5,
+          child: ListTile(
+            leading: Text(
+              "Mobile No:",
+              style: tts2G,
+            ),
+            dense: true,
+            title: Text(
+              userNum!,
+              style: tts4B,
+            ),
+          ),
+        ),
+        Card(
+          elevation: 5,
+          child: ListTile(
+            leading: Text(
+              "Email Id:",
+              style: tts2G,
+            ),
+            dense: true,
+            title: Text(
+              userEmailIds!,
+              style: tts4B,
+            ),
+          ),
+        )
+      ],
+    );
+  }
+
+  logOut() {
+    return Row(
+      children: [
+        CusTextButton('Reset Password'),
+        InkWell(
+            onTap: () async {
+              SharedPreferences preferences =
+                  await SharedPreferences.getInstance();
+              await preferences.clear();
+              Navigator.of(context)
+                  .pushNamedAndRemoveUntil("LoginPage", (route) => false);
+            },
+            child: CusTextButton('LogOut')),
+      ],
     );
   }
 }

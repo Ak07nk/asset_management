@@ -80,15 +80,14 @@ class _LoginPageState extends State<LoginPage> {
         ),
         Container(
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(25),
-            color: appColorW,
-          ),
+              borderRadius: BorderRadius.circular(25),
+              color: appColorW,
+              image: DecorationImage(
+                image: AssetImage(appLogo2),
+                fit: BoxFit.cover,
+              )),
           height: 250,
           width: 250,
-          child: const Image(
-            image: AssetImage(appLogo),
-            fit: BoxFit.cover,
-          ),
         ),
         SizedBox(
           height: 30,
@@ -222,9 +221,11 @@ class _LoginPageState extends State<LoginPage> {
         prefs.setString(userNamee, value['data']['first_name']);
         prefs.setString(userLastNamee, value['data']['last_name']);
         prefs.setString(userEmailId, value['data']['email']);
+        prefs.setString(userNum, value['data']['phone']);
         debugPrint("userId:::>" + userId);
         debugPrint("userName:::>" + userNamee);
         debugPrint("userEmail:::>" + userEmailId);
+        debugPrint("userMobile:::>" + userNum);
         showFlutterTost('Congratulations You Have Successfully LogIn');
         Navigator.pushNamedAndRemoveUntil(
             context, 'HomePage', (route) => false);

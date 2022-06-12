@@ -30,8 +30,8 @@ class _ReportPageState extends State<ReportPage> {
       setState(() {
         reportResp = value;
       });
+      log(json.encode(reportResp.toString()));
     });
-    log(json.encode(reportResp.toString()));
   }
 
   @override
@@ -177,9 +177,9 @@ class _ReportPageState extends State<ReportPage> {
   //   return Navigator.pushNamed(context, 'DetaileReportPage', arguments: repId);
   // }
 
-  @override
-  void dispose() {
-    getReportData();
-    super.dispose();
-  }
+  // @override
+  // void dispose() {
+  //   getReportData();
+  //   super.dispose();
+  // }
 }

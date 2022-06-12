@@ -55,21 +55,6 @@ class _HomePageState extends State<HomePage> {
       centerTitle: false,
       shadowColor: appColorW,
       actions: [
-        // InkWell(
-        //   onTap: () async {
-        //     SharedPreferences preferences =
-        //         await SharedPreferences.getInstance();
-        //     await preferences.clear();
-        //     Navigator.of(context)
-        //         .pushNamedAndRemoveUntil("LoginPage", (route) => false);
-        //   },
-        //   child: Icon(
-        //     Icons.logout_outlined,
-        //     size: 22,
-        //     color: appColorG,
-        //   ),
-        // ),
-
         InkWell(
           onTap: () {
             Navigator.pushNamed(context, 'ProfilePage');

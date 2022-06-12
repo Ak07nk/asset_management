@@ -20,6 +20,7 @@ const String userId = "Uid";
 const String userNamee = "UFname";
 const String userLastNamee = "ULname";
 const String userEmailId = "UEmailId";
+const String userNum = "UEMobile";
 //******************************************************ProfileScreen***************************/
 const proFile = 'Profile';
 const reports = 'Reports';
