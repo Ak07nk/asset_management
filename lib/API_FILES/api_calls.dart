@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:developer';
+import 'package:asset_management/API_FILES/MODEL_CLASSES/report_model.dart';
 import 'package:asset_management/API_FILES/api_links.dart';
 import 'package:asset_management/STATELESS_WIDGET/flutter_tost.dart';
 import 'package:flutter/cupertino.dart';
@@ -14,6 +15,8 @@ ApiServices apiServices = ApiServices();
 var client = http.Client();
 
 class ApiServices {
+  String? userIds;
+
   Future<dynamic> login(LoginRequest loginRequest) async {
     Map<String, String> headerss = {
       'Content-type': 'application/json',
@@ -120,6 +123,46 @@ class ApiServices {
       // if (jsonResponse['status'] == false) {
       //   showFlutterTost(jsonResponse['msg']);
       // }
+    }
+  }
+
+//********************************************************************************Assest_Report */
+  Future<dynamic> reports() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    userIds = prefs.getString("Uid");
+    var reportlink = Uri.parse(baseUrl + assestReportUrl + userIds!);
+    print("ReportGet:::>" + reportlink.toString());
+    String userNamEE = 'tapapp';
+    String passWorDD = '1234';
+    String basicAuth =
+        'Basic ' + base64Encode(utf8.encode('$userNamEE:$passWorDD'));
+    debugPrint(basicAuth);
+    Map<String, String> headerSs = {
+      'Content-type': 'application/json',
+      'Accept': 'application/json',
+      "Authorization": basicAuth,
+      'X-API-KEY': "PTAX@123"
+    };
+    var request = http.MultipartRequest("Get", reportlink);
+    request.headers.addAll(headerSs);
+    http.StreamedResponse response = await request.send();
+    if (response.statusCode == 500) {
+      showFlutterTost(response.reasonPhrase.toString());
+    } else if (response.statusCode == 404) {
+      showFlutterTost(response.reasonPhrase.toString());
+    } else if (response.statusCode == 200) {
+      String values = await response.stream.bytesToString();
+      Map<String, dynamic> jsonResponse = jsonDecode(values);
+      if (jsonResponse['status'] == true) {
+        ReportResponse reportResponse = ReportResponse.fromMap(jsonResponse);
+        // ignore: avoid_print
+        print(reportResponse);
+        return ReportResponse.fromMap(jsonResponse);
+      }
+      if (jsonResponse['status'] == false) {
+        showFlutterTost(jsonResponse['msg']);
+        
+      }
     }
   }
 }

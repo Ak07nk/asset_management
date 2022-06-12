@@ -22,3 +22,4 @@ const String userLastNamee = "ULname";
 const String userEmailId = "UEmailId";
 //******************************************************ProfileScreen***************************/
 const proFile = 'Profile';
+const reports = 'Reports';

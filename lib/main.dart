@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
         'LoginPage': (context) => const LoginPage(),
         'HomePage': (context) => const HomePage(),
         'PreVerification': (context) => const PreVerification(),
-        'RepoetPage': (context) => const RepoetPage(),
+        'ReportPage': (context) => const ReportPage(),
         'ProfilePage': (context) => const ProfilePage(),
       },
       initialRoute: 'SplashScreen',

@@ -193,7 +193,7 @@ class _HomePageState extends State<HomePage> {
           ),
           InkWell(
             onTap: () {
-              Navigator.pushNamed(context, 'RepoetPage');
+              Navigator.pushNamed(context, 'ReportPage');
             },
             child: Card(
               shape: RoundedRectangleBorder(
