@@ -21,7 +21,6 @@ class _ProfilePageState extends State<ProfilePage> {
   String? userNum;
   @override
   void initState() {
-    // TODO: implement initState
     getSharedPreferences();
     super.initState();
   }
@@ -63,13 +62,13 @@ class _ProfilePageState extends State<ProfilePage> {
       centerTitle: false,
       shadowColor: appColorW,
       actions: [
-        IconButton(
-            onPressed: () {},
-            icon: Icon(
-              Icons.more_vert_rounded,
-              size: 22,
-              color: appColorG,
-            ))
+        // IconButton(
+        //     onPressed: () {},
+        //     icon: Icon(
+        //       Icons.more_vert_rounded,
+        //       size: 22,
+        //       color: appColorG,
+        //     ))
       ],
     );
   }
@@ -142,7 +141,7 @@ class _ProfilePageState extends State<ProfilePage> {
           elevation: 3,
           child: ListTile(
             title: Text(
-              "Email Id",
+              "Login Id",
               style: tts2G,
             ),
             dense: true,

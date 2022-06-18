@@ -1,23 +1,25 @@
 import 'dart:convert';
 import 'dart:developer';
+import 'package:asset_management/API_FILES/MODEL_CLASSES/immoveable_report_model.dart';
 import 'package:asset_management/API_FILES/MODEL_CLASSES/report_model.dart';
 import 'package:asset_management/API_FILES/api_calls.dart';
+import 'package:asset_management/STATELESS_WIDGET/flutter_tost.dart';
 import 'package:asset_management/UTILS/color_const.dart';
 import 'package:asset_management/UTILS/text_const.dart';
 import 'package:asset_management/UTILS/text_style_const.dart';
 import 'package:flutter/material.dart';
 
-class ReportPage extends StatefulWidget {
-  const ReportPage({Key? key}) : super(key: key);
+class ImMoveableReport extends StatefulWidget {
+  const ImMoveableReport({Key? key}) : super(key: key);
 
   @override
-  _ReportPageState createState() => _ReportPageState();
+  _ImMoveableReportState createState() => _ImMoveableReportState();
 }
 
-class _ReportPageState extends State<ReportPage> {
+class _ImMoveableReportState extends State<ImMoveableReport> {
   int? sortColumnIndex;
   bool isAscending = true;
-  ReportResponse? reportResp;
+  ImMoveableReportResponse? reportRespS;
 
   void initstate() {
     super.initState();
@@ -25,23 +27,23 @@ class _ReportPageState extends State<ReportPage> {
   }
 
   getReportData() async {
-    apiServices.reports().then((value) {
+    apiServices.immovablereports().then((value) {
       setState(() {
-        reportResp = value;
+        reportRespS = value;
       });
-      log(json.encode(reportResp.toString()));
+      log(json.encode(reportRespS.toString()));
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    if (reportResp == null) {
+    if (reportRespS == null) {
       getReportData();
     }
     return SafeArea(
       child: Scaffold(
         appBar: buildAppbar(),
-        body: reportResp == null
+        body: reportRespS == null
             ? const Center(child: CircularProgressIndicator())
             : buildBody(),
         // bottomNavigationBar: bNB(),
@@ -62,13 +64,13 @@ class _ReportPageState extends State<ReportPage> {
       centerTitle: false,
       shadowColor: appColorW,
       actions: [
-        IconButton(
-            onPressed: () {},
-            icon: Icon(
-              Icons.more_vert_rounded,
-              size: 22,
-              color: appColorG,
-            ))
+        // IconButton(
+        //     onPressed: () {},
+        //     icon: Icon(
+        //       Icons.more_vert_rounded,
+        //       size: 22,
+        //       color: appColorG,
+        //     ))
       ],
     );
   }
@@ -111,13 +113,13 @@ class _ReportPageState extends State<ReportPage> {
 
   Widget buildDataTable() {
     final columns = [
-      'Asset Id',
+      'Sl No',
       'Asset Name',
       'Asset Qty',
       'Asset PrDate',
-      // 'Asset Desc',
-      // 'Asset Cat',
-      // 'Asset Condition',
+      'Asset Condition',
+      'Asset Pincode',
+      'Asset Address',
       // 'Asset Ward'
       // 'Asset Remarks', //9
     ];
@@ -129,7 +131,7 @@ class _ReportPageState extends State<ReportPage> {
         sortAscending: false,
         columns: getColumns(columns),
         rows: getRows(
-          reportResp!.data!.reports,
+          reportRespS!.data!.reports,
         ),
       ),
     );
@@ -147,45 +149,45 @@ class _ReportPageState extends State<ReportPage> {
           ))
       .toList();
 
-  List<DataRow> getRows(List<Reports>? reports) =>
-      reports!.map((Reports reports) {
+  List<DataRow> getRows(List<Reportss>? reportss) =>
+      reportss!.map((Reportss reportss) {
         final cells = [
-          reports.id,
-          reports.astName,
-          reports.astQty,
-          reports.astPrDate,
+          reportss.id,
+          reportss.astName,
+          reportss.astQty,
+          reportss.astPrDate,
+          reportss.astCondition,
+          reportss.astPincode,
+          reportss.astAddress,
           // reports.astDesc,
           // reports.astCat,
-          // reports.astCondition,
           // reports.astWard,
           // reports.astRemarks,
         ];
 
-        return DataRow(cells: getCells(cells, reports));
+        return DataRow(cells: getCells(cells, reportss));
       }).toList();
 
-  List<DataCell> getCells(List<dynamic> cells, reports) => cells
+  List<DataCell> getCells(List<dynamic> cells, reportss) => cells
       .map((data) => DataCell(
-            Container(
-              alignment: Alignment.center,
-              child: Text(
-                '$data',
-                style: tts3B,
-              ),
-            ),
-            //      onTap: () {
-            //   if ("$data" == reports!.id) {
-            //     _reportDetaile('$data');
-            //   } else {
-            //     showFlutterTost('click on Report Id ');
-            //   }
-            // }
-          ))
+              Container(
+                alignment: Alignment.center,
+                child: Text(
+                  '$data',
+                  style: tts3B,
+                ),
+              ), onTap: () {
+            if ("$data" == reportss!.id) {
+              _reportDetaile('$data');
+            } else {
+              showFlutterTost('click on Sl No');
+            }
+          }))
       .toList();
 
-  // _reportDetaile(String repId) {
-  //   return Navigator.pushNamed(context, 'DetaileReportPage', arguments: repId);
-  // }
+  _reportDetaile(String repId) {
+    return Navigator.pushNamed(context, 'IMmovreportId', arguments: repId);
+  }
 
   // @override
   // void dispose() {

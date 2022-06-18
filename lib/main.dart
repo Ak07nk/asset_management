@@ -1,7 +1,11 @@
+import 'package:asset_management/UI_FLOW_PAGE/HOME_PAGES/REPORT_ID_PAGE/immovreport_id.dart';
+import 'package:asset_management/UI_FLOW_PAGE/HOME_PAGES/REPORT_ID_PAGE/movreport_id.dart';
 import 'package:asset_management/UI_FLOW_PAGE/HOME_PAGES/home_page.dart';
-import 'package:asset_management/UI_FLOW_PAGE/HOME_PAGES/pre_verification.dart';
+import 'package:asset_management/UI_FLOW_PAGE/HOME_PAGES/immovable_asset_insert.dart';
+import 'package:asset_management/UI_FLOW_PAGE/HOME_PAGES/immoveable_report_page.dart';
+import 'package:asset_management/UI_FLOW_PAGE/HOME_PAGES/movable_asset_insert.dart';
 import 'package:asset_management/UI_FLOW_PAGE/HOME_PAGES/profile_page.dart';
-import 'package:asset_management/UI_FLOW_PAGE/HOME_PAGES/report_page.dart';
+import 'package:asset_management/UI_FLOW_PAGE/HOME_PAGES/moveable_report_page.dart';
 import 'package:flutter/material.dart';
 
 import 'UI_FLOW_PAGE/AUTH_PAGES/login_page.dart';
@@ -27,8 +31,12 @@ class MyApp extends StatelessWidget {
         'LoginPage': (context) => const LoginPage(),
         'HomePage': (context) => const HomePage(),
         'PreVerification': (context) => const PreVerification(),
+        'ImMoveableAssetInsert': (context) => const ImMoveableAssetInsert(),
         'ReportPage': (context) => const ReportPage(),
+        'ImMoveableReport': (context) => const ImMoveableReport(),
         'ProfilePage': (context) => const ProfilePage(),
+        'IMmovreportId': (context) => const IMmovreportId(),
+        'MovreportId': (context) => const MovreportId(),
       },
       initialRoute: 'SplashScreen',
       debugShowCheckedModeBanner: false,

@@ -24,3 +24,5 @@ const String userNum = "UEMobile";
 //******************************************************ProfileScreen***************************/
 const proFile = 'Profile';
 const reports = 'Reports';
+//******************************************************ImMovreportIdScreen***************************/
+const imrepid = "Asset Id Detail";

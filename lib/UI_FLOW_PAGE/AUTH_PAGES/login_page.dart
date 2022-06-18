@@ -136,7 +136,7 @@ class _LoginPageState extends State<LoginPage> {
         children: [
           CustomTextField(
             "Login Id",
-            'AZ@gmail.com',
+            'AZ12345',
             Icon(
               Icons.person,
               size: 25,
@@ -186,11 +186,13 @@ class _LoginPageState extends State<LoginPage> {
               showFlutterTost(
                 'Enter Your Email',
               );
-            } else if (!loginRequest.email!.contains('@')) {
-              showFlutterTost(
-                'Enter The Valid Email',
-              );
-            } else if (loginRequest.password!.isEmpty) {
+            }
+            //  else if (!loginRequest.email!.contains('@')) {
+            //   showFlutterTost(
+            //     'Enter The Valid Email',
+            //   );
+            // }
+            else if (loginRequest.password!.isEmpty) {
               showFlutterTost(
                 'Enter Your Password',
               );

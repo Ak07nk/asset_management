@@ -168,7 +168,7 @@ class _HomePageState extends State<HomePage> {
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Text(
-                      'Office',
+                      'Asset Movable',
                       style: tts3B,
                     ),
                   )
@@ -207,7 +207,85 @@ class _HomePageState extends State<HomePage> {
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Text(
-                      'Report',
+                      'Movable Report',
+                      style: tts3B,
+                    ),
+                  )
+                ],
+              ),
+            ),
+          ),
+          InkWell(
+            onTap: () {
+              Navigator.pushNamed(context, 'ImMoveableAssetInsert');
+            },
+            child: Card(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20.0),
+              ),
+              shadowColor: appColorG,
+              color: appColorW,
+              elevation: 5,
+              child: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Container(
+                      height: 100,
+                      width: 150,
+                      // color: appColorB,
+                      decoration: BoxDecoration(
+                          image: DecorationImage(
+                              image: AssetImage('assets/officeIcon.png'))),
+                    ),
+                  ),
+                  Divider(
+                    height: 12,
+                    color: appColorG,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      'Asset Immovable',
+                      style: tts3B,
+                    ),
+                  )
+                ],
+              ),
+            ),
+          ),
+          InkWell(
+            onTap: () {
+              Navigator.pushNamed(context, 'ImMoveableReport');
+            },
+            child: Card(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20.0),
+              ),
+              shadowColor: appColorG,
+              color: appColorW,
+              elevation: 5,
+              child: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Container(
+                      height: 100,
+                      width: 150,
+                      // color: appColorB,
+                      decoration: BoxDecoration(
+                          image: DecorationImage(
+                              image: AssetImage('assets/report-icon.jpg'))),
+                    ),
+                  ),
+                  Divider(
+                    height: 12,
+                    color: appColorG,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      'Immovable Report',
                       style: tts3B,
                     ),
                   )

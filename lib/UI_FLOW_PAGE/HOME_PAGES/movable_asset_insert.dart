@@ -2,7 +2,7 @@
 
 import 'dart:io';
 
-import 'package:asset_management/API_FILES/MODEL_CLASSES/assest_insert_model.dart';
+import 'package:asset_management/API_FILES/MODEL_CLASSES/move_insert_model.dart';
 import 'package:asset_management/API_FILES/api_calls.dart';
 import 'package:asset_management/STATELESS_WIDGET/flutter_tost.dart';
 import 'package:asset_management/UTILS/color_const.dart';
@@ -12,7 +12,6 @@ import 'package:asset_management/UTILS/text_style_const.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:image_picker/image_picker.dart';
-
 
 enum OfficeSelect { officeA, officeB, officeC }
 
@@ -77,15 +76,15 @@ class _PreVerificationState extends State<PreVerification> {
       titleSpacing: 15,
       centerTitle: false,
       shadowColor: appColorW,
-      actions: [
-        IconButton(
-            onPressed: () {},
-            icon: Icon(
-              Icons.more_vert_rounded,
-              size: 22,
-              color: appColorG,
-            ))
-      ],
+      // actions: [
+      //   IconButton(
+      //       onPressed: () {},
+      //       icon: Icon(
+      //         Icons.more_vert_rounded,
+      //         size: 22,
+      //         color: appColorG,
+      //       ))
+      // ],
     );
   }
 
