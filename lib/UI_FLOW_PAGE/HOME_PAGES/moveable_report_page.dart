@@ -62,15 +62,15 @@ class _ReportPageState extends State<ReportPage> {
       titleSpacing: 15,
       centerTitle: false,
       shadowColor: appColorW,
-      actions: [
-        IconButton(
-            onPressed: () {},
-            icon: Icon(
-              Icons.more_vert_rounded,
-              size: 22,
-              color: appColorG,
-            ))
-      ],
+      // actions: [
+      //   IconButton(
+      //       onPressed: () {},
+      //       icon: Icon(
+      //         Icons.more_vert_rounded,
+      //         size: 22,
+      //         color: appColorG,
+      //       ))
+      // ],
     );
   }
 
@@ -177,7 +177,7 @@ class _ReportPageState extends State<ReportPage> {
             if ("$data" == reports!.id) {
               _reportDetaile('$data');
             } else {
-              showFlutterTost('click on Sl No');
+              showFlutterTost('click on SlNo');
             }
           }))
       .toList();

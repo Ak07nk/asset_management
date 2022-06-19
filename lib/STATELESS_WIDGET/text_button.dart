@@ -25,13 +25,15 @@ class CusTextButton extends StatelessWidget {
           padding: const EdgeInsets.all(7.0),
           child: Text(
             butName!,
-            style: tts6WW,
+            textAlign: TextAlign.center,
+            style: tts5W,
           ),
         ),
       ),
     );
   }
 }
+
 class CusTextButtonAnimat extends StatelessWidget {
   String? butName;
 

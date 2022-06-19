@@ -180,7 +180,7 @@ class _ImMoveableReportState extends State<ImMoveableReport> {
             if ("$data" == reportss!.id) {
               _reportDetaile('$data');
             } else {
-              showFlutterTost('click on Sl No');
+              showFlutterTost('click on SlNo');
             }
           }))
       .toList();

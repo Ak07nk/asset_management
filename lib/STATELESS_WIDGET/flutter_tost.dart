@@ -7,7 +7,7 @@ void showFlutterTost(String message) {
       toastLength: Toast.LENGTH_SHORT,
       gravity: ToastGravity.BOTTOM,
       timeInSecForIosWeb: 5,
-      backgroundColor: Colors.black,
+      backgroundColor: Colors.green.shade900,
       textColor: Colors.white,
-      fontSize: 14.0);
+      fontSize: 15.0);
 }

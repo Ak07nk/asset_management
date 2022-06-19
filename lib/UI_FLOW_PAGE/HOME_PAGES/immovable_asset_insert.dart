@@ -426,25 +426,25 @@ class _ImMoveableAssetInsertState extends State<ImMoveableAssetInsert> {
                 ),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: TextFormField(
-                // readOnly: true,
-                style: tts4B,
-                onChanged: (val) {
-                  setState(() {
-                    imMoveableassestInputtRequest[index].astCat = val;
-                  });
-                },
-                decoration: InputDecoration(
-                  labelText: 'Asset cat',
-                  labelStyle: tts4G,
-                  isDense: true,
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8)),
-                ),
-              ),
-            ),
+            // Padding(
+            //   padding: const EdgeInsets.all(8.0),
+            //   child: TextFormField(
+            //     // readOnly: true,
+            //     style: tts4B,
+            //     onChanged: (val) {
+            //       setState(() {
+            //         imMoveableassestInputtRequest[index].astCat = val;
+            //       });
+            //     },
+            //     decoration: InputDecoration(
+            //       labelText: 'Asset cat',
+            //       labelStyle: tts4G,
+            //       isDense: true,
+            //       border: OutlineInputBorder(
+            //           borderRadius: BorderRadius.circular(8)),
+            //     ),
+            //   ),
+            // ),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: TextFormField(
@@ -466,44 +466,44 @@ class _ImMoveableAssetInsertState extends State<ImMoveableAssetInsert> {
                 ),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: TextFormField(
-                // readOnly: true,
-                style: tts4B,
-                onChanged: (val) {
-                  setState(() {
-                    imMoveableassestInputtRequest[index].astCondition = val;
-                  });
-                },
-                decoration: InputDecoration(
-                  labelText: 'Asset condition',
-                  labelStyle: tts4G,
-                  isDense: true,
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8)),
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: TextFormField(
-                // readOnly: true,
-                style: tts4B,
-                onChanged: (val) {
-                  setState(() {
-                    imMoveableassestInputtRequest[index].astDesc = val;
-                  });
-                },
-                decoration: InputDecoration(
-                  labelText: 'Asset desc',
-                  labelStyle: tts4G,
-                  isDense: true,
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8)),
-                ),
-              ),
-            ),
+            // Padding(
+            //   padding: const EdgeInsets.all(8.0),
+            //   child: TextFormField(
+            //     // readOnly: true,
+            //     style: tts4B,
+            //     onChanged: (val) {
+            //       setState(() {
+            //         imMoveableassestInputtRequest[index].astCondition = val;
+            //       });
+            //     },
+            //     decoration: InputDecoration(
+            //       labelText: 'Asset condition',
+            //       labelStyle: tts4G,
+            //       isDense: true,
+            //       border: OutlineInputBorder(
+            //           borderRadius: BorderRadius.circular(8)),
+            //     ),
+            //   ),
+            // ),
+            // Padding(
+            //   padding: const EdgeInsets.all(8.0),
+            //   child: TextFormField(
+            //     // readOnly: true,
+            //     style: tts4B,
+            //     onChanged: (val) {
+            //       setState(() {
+            //         imMoveableassestInputtRequest[index].astDesc = val;
+            //       });
+            //     },
+            //     decoration: InputDecoration(
+            //       labelText: 'Asset desc',
+            //       labelStyle: tts4G,
+            //       isDense: true,
+            //       border: OutlineInputBorder(
+            //           borderRadius: BorderRadius.circular(8)),
+            //     ),
+            //   ),
+            // ),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: TextFormField(
@@ -599,27 +599,27 @@ class _ImMoveableAssetInsertState extends State<ImMoveableAssetInsert> {
             //     ),
             //   ),
             // ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: TextFormField(
-                // readOnly: true,
-                style: tts4B,
+            // Padding(
+            //   padding: const EdgeInsets.all(8.0),
+            //   child: TextFormField(
+            //     // readOnly: true,
+            //     style: tts4B,
 
-                onChanged: (val) {
-                  setState(() {
-                    imMoveableassestInputtRequest[index].astWard = val;
-                  });
-                },
+            //     onChanged: (val) {
+            //       setState(() {
+            //         imMoveableassestInputtRequest[index].astWard = val;
+            //       });
+            //     },
 
-                decoration: InputDecoration(
-                  labelText: 'Asset ward',
-                  labelStyle: tts4G,
-                  isDense: true,
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8)),
-                ),
-              ),
-            ),
+            //     decoration: InputDecoration(
+            //       labelText: 'Asset ward',
+            //       labelStyle: tts4G,
+            //       isDense: true,
+            //       border: OutlineInputBorder(
+            //           borderRadius: BorderRadius.circular(8)),
+            //     ),
+            //   ),
+            // ),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Container(

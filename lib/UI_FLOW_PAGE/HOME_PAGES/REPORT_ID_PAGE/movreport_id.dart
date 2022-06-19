@@ -96,8 +96,8 @@ class _MovreportIdState extends State<MovreportId> {
               'Name :', imMovDRId!.astName != null ? imMovDRId!.astName : ''),
           ListOfrep(
               'Qty :', imMovDRId!.astQty != null ? imMovDRId!.astQty : ''),
-          ListOfrep(
-              'Date', imMovDRId!.astPrDate != null ? imMovDRId!.astPrDate : ''),
+          ListOfrep('Date :',
+              imMovDRId!.astPrDate != null ? imMovDRId!.astPrDate : ''),
           imageupdate()
         ],
       ),
@@ -130,9 +130,10 @@ class _MovreportIdState extends State<MovreportId> {
           // color: appColorW,
           decoration: BoxDecoration(
               image: DecorationImage(
-                  image: NetworkImage(imMovDRId!.astImage == null
+                  image: NetworkImage(imMovDRId!.astImage != null &&
+                          imMovDRId!.astImage != ""
                       ? imMovDRId!.astImage!
-                      : 'https://cdn.pixabay.com/photo/2021/09/13/08/13/dahlia-6620610_640.jpg'))),
+                      : 'https://cdn.pixabay.com/photo/2017/06/23/01/39/label-2433187_960_720.png'))),
         ),
       ),
     );
