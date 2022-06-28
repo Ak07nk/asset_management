@@ -70,7 +70,7 @@ const tts4G = TextStyle(
     fontWeight: FontWeight.w800,
     letterSpacing: 0.1);
 const tts4GD = TextStyle(
-    color: Color.fromARGB(255, 1, 64, 16),
+    color: Color.fromARGB(255, 16, 171, 52),
     fontSize: 16,
     fontWeight: FontWeight.w800,
     letterSpacing: 0.1);
@@ -105,7 +105,7 @@ const tts6W = TextStyle(
 const tts6B = TextStyle(
     color: Colors.black,
     fontSize: 20,
-    fontFamily: 'Raleway',
+    // fontFamily: 'Raleway',
     fontWeight: FontWeight.w800,
     letterSpacing: 0.1);
 const tts6WW = TextStyle(

@@ -7,12 +7,13 @@ class CustomTextField extends StatelessWidget {
   String? hintText;
   // String? validData;
   Widget? icondata;
+  TextInputType? textinputType;
 
   TextEditingController? controller;
   bool obscureText;
 
   CustomTextField(this.labelText, this.hintText, this.icondata, this.controller,
-      this.obscureText,
+      this.textinputType, this.obscureText,
       {Key? key})
       : super(key: key);
 
@@ -32,12 +33,13 @@ class CustomTextField extends StatelessWidget {
           child: TextFormField(
             autovalidateMode: AutovalidateMode.onUserInteraction,
             obscureText: obscureText,
+
             // validator: (val) => validData,
             style: tts6B,
             cursorHeight: 25,
             cursorColor: Colors.black,
             controller: controller,
-            keyboardType: TextInputType.emailAddress,
+            keyboardType: textinputType,
             decoration: InputDecoration(
                 suffixIcon: icondata,
                 isDense: true,

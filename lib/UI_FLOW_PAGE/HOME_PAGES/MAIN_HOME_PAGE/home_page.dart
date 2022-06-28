@@ -139,7 +139,7 @@ class _HomePageState extends State<HomePage> {
         children: [
           InkWell(
             onTap: () {
-              Navigator.pushNamed(context, 'PreVerification');
+              Navigator.pushNamed(context, 'MovableAssertInsert');
             },
             child: Card(
               shape: RoundedRectangleBorder(
@@ -286,6 +286,84 @@ class _HomePageState extends State<HomePage> {
                     padding: const EdgeInsets.all(8.0),
                     child: Text(
                       'Immovable Report',
+                      style: tts3B,
+                    ),
+                  )
+                ],
+              ),
+            ),
+          ),
+          InkWell(
+            onTap: () {
+              Navigator.pushNamed(context, 'ConstructionAssetInsert');
+            },
+            child: Card(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20.0),
+              ),
+              shadowColor: appColorG,
+              color: appColorW,
+              elevation: 5,
+              child: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Container(
+                      height: 100,
+                      width: 150,
+                      // color: appColorB,
+                      decoration: BoxDecoration(
+                          image: DecorationImage(
+                              image: AssetImage('assets/officeIcon.png'))),
+                    ),
+                  ),
+                  Divider(
+                    height: 12,
+                    color: appColorG,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      'Const Asset',
+                      style: tts3B,
+                    ),
+                  )
+                ],
+              ),
+            ),
+          ),
+          InkWell(
+            onTap: () {
+              Navigator.pushNamed(context, 'ConstructionReport');
+            },
+            child: Card(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20.0),
+              ),
+              shadowColor: appColorG,
+              color: appColorW,
+              elevation: 5,
+              child: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Container(
+                      height: 100,
+                      width: 150,
+                      // color: appColorB,
+                      decoration: BoxDecoration(
+                          image: DecorationImage(
+                              image: AssetImage('assets/report-icon.jpg'))),
+                    ),
+                  ),
+                  Divider(
+                    height: 12,
+                    color: appColorG,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      'Const Report',
                       style: tts3B,
                     ),
                   )

@@ -2,6 +2,7 @@
 
 import 'dart:io';
 
+import 'package:asset_management/API_FILES/MODEL_CLASSES/cosnt_insert_model.dart';
 import 'package:asset_management/API_FILES/MODEL_CLASSES/move_insert_model.dart';
 import 'package:asset_management/API_FILES/MODEL_CLASSES/immove_insert_model.dart';
 import 'package:asset_management/API_FILES/api_calls.dart';
@@ -16,14 +17,15 @@ import 'package:image_picker/image_picker.dart';
 
 enum OfficeSelect { officeA, officeB, officeC }
 
-class ImMoveableAssetInsert extends StatefulWidget {
-  const ImMoveableAssetInsert({Key? key}) : super(key: key);
+class ConstructionAssetInsert extends StatefulWidget {
+  const ConstructionAssetInsert({Key? key}) : super(key: key);
 
   @override
-  State<ImMoveableAssetInsert> createState() => _ImMoveableAssetInsertState();
+  State<ConstructionAssetInsert> createState() =>
+      _ConstructionAssetInsertState();
 }
 
-class _ImMoveableAssetInsertState extends State<ImMoveableAssetInsert> {
+class _ConstructionAssetInsertState extends State<ConstructionAssetInsert> {
   TextEditingController dateCtl = TextEditingController();
   ImagePicker imagePicker = ImagePicker();
   OfficeSelect? _isSelectoffice;
@@ -34,8 +36,8 @@ class _ImMoveableAssetInsertState extends State<ImMoveableAssetInsert> {
   bool isSubmit = false;
 
   //* list of Request data
-  List<ImMoveableAssetRequest> imMoveableassestInputtRequest = [
-    ImMoveableAssetRequest(),
+  List<ConstructionAssetRequest> constassestInputtRequest = [
+    ConstructionAssetRequest(),
   ];
 
   @override
@@ -104,14 +106,14 @@ class _ImMoveableAssetInsertState extends State<ImMoveableAssetInsert> {
   //* add forms on tap of fAB
   void onAddForm() {
     setState(() {
-      imMoveableassestInputtRequest.add(ImMoveableAssetRequest());
+      constassestInputtRequest.add(ConstructionAssetRequest());
     });
   }
 
   //* remove the form on tap of delete
   void onDelete(int index) {
     setState(() {
-      imMoveableassestInputtRequest.removeAt(index);
+      constassestInputtRequest.remove(index);
     });
   }
 
@@ -343,7 +345,7 @@ class _ImMoveableAssetInsertState extends State<ImMoveableAssetInsert> {
                 dividerline(),
                 buildforms(),
                 dividerline(),
-                buildBNB(imMoveableassestInputtRequest.length),
+                buildBNB(constassestInputtRequest.length),
               ],
             ),
           ),
@@ -358,7 +360,7 @@ class _ImMoveableAssetInsertState extends State<ImMoveableAssetInsert> {
           physics: NeverScrollableScrollPhysics(),
           scrollDirection: Axis.vertical,
           shrinkWrap: true,
-          itemCount: imMoveableassestInputtRequest.length,
+          itemCount: constassestInputtRequest.length,
           itemBuilder: (BuildContext context, int index) {
             return assestForm(index);
           }),
@@ -414,7 +416,7 @@ class _ImMoveableAssetInsertState extends State<ImMoveableAssetInsert> {
                 style: tts4B,
                 onChanged: (val) {
                   setState(() {
-                    imMoveableassestInputtRequest[index].astName = val;
+                    constassestInputtRequest[index].astName = val;
                   });
                 },
                 decoration: InputDecoration(
@@ -433,7 +435,7 @@ class _ImMoveableAssetInsertState extends State<ImMoveableAssetInsert> {
             //     style: tts4B,
             //     onChanged: (val) {
             //       setState(() {
-            //         imMoveableassestInputtRequest[index].astCat = val;
+            //         constassestInputtRequest[index].astCat = val;
             //       });
             //     },
             //     decoration: InputDecoration(
@@ -453,12 +455,30 @@ class _ImMoveableAssetInsertState extends State<ImMoveableAssetInsert> {
                 style: tts4B,
                 onChanged: (val) {
                   setState(() {
-                    imMoveableassestInputtRequest[index].astQty =
-                        int.tryParse(val);
+                    constassestInputtRequest[index].astQty = int.tryParse(val);
                   });
                 },
                 decoration: InputDecoration(
                   labelText: 'Asset Qty',
+                  labelStyle: tts4G,
+                  isDense: true,
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8)),
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: TextFormField(
+                // readOnly: true,
+                style: tts4B,
+                onChanged: (val) {
+                  setState(() {
+                    constassestInputtRequest[index].astCondition = val;
+                  });
+                },
+                decoration: InputDecoration(
+                  labelText: 'Asset condition',
                   labelStyle: tts4G,
                   isDense: true,
                   border: OutlineInputBorder(
@@ -473,26 +493,7 @@ class _ImMoveableAssetInsertState extends State<ImMoveableAssetInsert> {
             //     style: tts4B,
             //     onChanged: (val) {
             //       setState(() {
-            //         imMoveableassestInputtRequest[index].astCondition = val;
-            //       });
-            //     },
-            //     decoration: InputDecoration(
-            //       labelText: 'Asset condition',
-            //       labelStyle: tts4G,
-            //       isDense: true,
-            //       border: OutlineInputBorder(
-            //           borderRadius: BorderRadius.circular(8)),
-            //     ),
-            //   ),
-            // ),
-            // Padding(
-            //   padding: const EdgeInsets.all(8.0),
-            //   child: TextFormField(
-            //     // readOnly: true,
-            //     style: tts4B,
-            //     onChanged: (val) {
-            //       setState(() {
-            //         imMoveableassestInputtRequest[index].astDesc = val;
+            //         constassestInputtRequest[index].astDesc = val;
             //       });
             //     },
             //     decoration: InputDecoration(
@@ -507,13 +508,12 @@ class _ImMoveableAssetInsertState extends State<ImMoveableAssetInsert> {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: TextFormField(
-                maxLength: 50,
                 maxLines: 3,
                 // readOnly: true,
                 style: tts4B,
                 onChanged: (val) {
                   setState(() {
-                    imMoveableassestInputtRequest[index].astaddress = val;
+                    constassestInputtRequest[index].astaddress = val;
                   });
                 },
                 decoration: InputDecoration(
@@ -534,11 +534,31 @@ class _ImMoveableAssetInsertState extends State<ImMoveableAssetInsert> {
 
                 onChanged: (val) {
                   setState(() {
-                    imMoveableassestInputtRequest[index].astpincode = val;
+                    constassestInputtRequest[index].astpincode = val;
                   });
                 },
                 decoration: InputDecoration(
                   labelText: 'Asset Pincode',
+                  labelStyle: tts4G,
+                  isDense: true,
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8)),
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: TextFormField(
+                // readOnly: true,
+                style: tts4B,
+
+                onChanged: (val) {
+                  setState(() {
+                    constassestInputtRequest[index].astconsstage = val;
+                  });
+                },
+                decoration: InputDecoration(
+                  labelText: 'Asset Const Stage',
                   labelStyle: tts4G,
                   isDense: true,
                   border: OutlineInputBorder(
@@ -607,7 +627,7 @@ class _ImMoveableAssetInsertState extends State<ImMoveableAssetInsert> {
 
             //     onChanged: (val) {
             //       setState(() {
-            //         imMoveableassestInputtRequest[index].astWard = val;
+            //         constassestInputtRequest[index].astWard = val;
             //       });
             //     },
 
@@ -633,13 +653,13 @@ class _ImMoveableAssetInsertState extends State<ImMoveableAssetInsert> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      imMoveableassestInputtRequest[index].astprdate == null
+                      constassestInputtRequest[index].astprdate == null
                           ? Text(
                               'DD-MM-YYYY',
                               style: tts4G,
                             )
                           : Text(
-                              imMoveableassestInputtRequest[index]
+                              constassestInputtRequest[index]
                                   .astprdate
                                   .toString(),
                               style: tts4B,
@@ -648,8 +668,7 @@ class _ImMoveableAssetInsertState extends State<ImMoveableAssetInsert> {
                         onTap: () {
                           showcalander().then((value) {
                             setState(() {
-                              imMoveableassestInputtRequest[index].astprdate =
-                                  value;
+                              constassestInputtRequest[index].astprdate = value;
                             });
                           });
                         },
@@ -680,13 +699,12 @@ class _ImMoveableAssetInsertState extends State<ImMoveableAssetInsert> {
                         .pickImage(source: ImageSource.camera)
                         .then((value) {
                       setState(() {
-                        imMoveableassestInputtRequest[index].astimage =
-                            value!.path;
+                        constassestInputtRequest[index].astimage = value!.path;
                       });
-                      debugPrint(imMoveableassestInputtRequest[index].astimage);
+                      debugPrint(constassestInputtRequest[index].astimage);
                     });
                   },
-                  child: imMoveableassestInputtRequest[index].astimage == null
+                  child: constassestInputtRequest[index].astimage == null
                       ? Padding(
                           padding: const EdgeInsets.all(5.0),
                           child: Container(
@@ -737,7 +755,7 @@ class _ImMoveableAssetInsertState extends State<ImMoveableAssetInsert> {
                               image: DecorationImage(
                                   fit: BoxFit.contain,
                                   image: FileImage(File(
-                                    imMoveableassestInputtRequest[index]
+                                    constassestInputtRequest[index]
                                         .astimage
                                         .toString(),
                                   ))),
@@ -803,24 +821,21 @@ class _ImMoveableAssetInsertState extends State<ImMoveableAssetInsert> {
                     textStyle: tts3B,
                     shape: StadiumBorder()),
                 onPressed: () async {
-                  if (imMoveableassestInputtRequest[index - 1].astName ==
-                      null) {
+                  if (constassestInputtRequest[index - 1].astName == null) {
                     showFlutterTost('Enter the Asset Name');
-                  } else if (imMoveableassestInputtRequest[index - 1].astQty ==
+                  } else if (constassestInputtRequest[index - 1].astQty ==
                       null) {
                     showFlutterTost('Enter the Asset Qty');
-                  } else if (imMoveableassestInputtRequest[index - 1]
-                          .astprdate ==
+                  } else if (constassestInputtRequest[index - 1].astprdate ==
                       null) {
                     showFlutterTost('Enter the Asset Pr Date');
-                  } else if (imMoveableassestInputtRequest[index - 1]
-                          .astimage ==
+                  } else if (constassestInputtRequest[index - 1].astimage ==
                       null) {
                     showFlutterTost('Upload the photo');
                   } else {
                     setState(() => isSubmit = true);
                     apiServices
-                        .imMoveablassectInsert(imMoveableassestInputtRequest)
+                        .constassectInsert(constassestInputtRequest)
                         .then((value) async {
                       debugPrint(value.toString());
                       if (value["status"] == true) {

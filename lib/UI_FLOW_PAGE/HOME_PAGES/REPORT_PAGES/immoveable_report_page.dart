@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:developer';
+import 'package:asset_management/API_FILES/MODEL_CLASSES/immoveable_report_model.dart';
 import 'package:asset_management/API_FILES/MODEL_CLASSES/report_model.dart';
 import 'package:asset_management/API_FILES/api_calls.dart';
 import 'package:asset_management/STATELESS_WIDGET/flutter_tost.dart';
@@ -8,17 +9,17 @@ import 'package:asset_management/UTILS/text_const.dart';
 import 'package:asset_management/UTILS/text_style_const.dart';
 import 'package:flutter/material.dart';
 
-class ReportPage extends StatefulWidget {
-  const ReportPage({Key? key}) : super(key: key);
+class ImMoveableReport extends StatefulWidget {
+  const ImMoveableReport({Key? key}) : super(key: key);
 
   @override
-  _ReportPageState createState() => _ReportPageState();
+  _ImMoveableReportState createState() => _ImMoveableReportState();
 }
 
-class _ReportPageState extends State<ReportPage> {
+class _ImMoveableReportState extends State<ImMoveableReport> {
   int? sortColumnIndex;
   bool isAscending = true;
-  ReportResponse? reportResp;
+  ImMoveableReportResponse? reportRespS;
 
   void initstate() {
     super.initState();
@@ -26,26 +27,35 @@ class _ReportPageState extends State<ReportPage> {
   }
 
   getReportData() async {
-    apiServices.reports().then((value) {
-      setState(() {
-        reportResp = value;
-      });
-      log(json.encode(reportResp.toString()));
+    apiServices.immovablereports().then((value) {
+      try {
+        if (value != null) {
+          setState(() {
+            reportRespS = value;
+          });
+        }
+      } catch (e) {
+        if (value == null) {
+          Text('No data');
+        }
+      }
+
+      log(json.encode(reportRespS.toString()));
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    if (reportResp == null) {
+    if (reportRespS == null) {
       getReportData();
     }
     return SafeArea(
       child: Scaffold(
         appBar: buildAppbar(),
-        body: reportResp == null
+        body: reportRespS == null
             ? const Center(child: CircularProgressIndicator())
             : buildBody(),
-        // bottomNavigationBar: bNB(),
+        bottomNavigationBar: note(),
       ),
     );
   }
@@ -62,15 +72,15 @@ class _ReportPageState extends State<ReportPage> {
       titleSpacing: 15,
       centerTitle: false,
       shadowColor: appColorW,
-      // actions: [
-      //   IconButton(
-      //       onPressed: () {},
-      //       icon: Icon(
-      //         Icons.more_vert_rounded,
-      //         size: 22,
-      //         color: appColorG,
-      //       ))
-      // ],
+      actions: [
+        // IconButton(
+        //     onPressed: () {},
+        //     icon: Icon(
+        //       Icons.more_vert_rounded,
+        //       size: 22,
+        //       color: appColorG,
+        //     ))
+      ],
     );
   }
 
@@ -87,25 +97,33 @@ class _ReportPageState extends State<ReportPage> {
   //     },
   //   );
   // }
+  note() {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Container(
+        height: 25,
+        alignment: Alignment.center,
+        width: MediaQuery.of(context).size.width,
+        child: Text(
+          '• Click on SlNO to view the Individual Report In Detail •',
+          style: tts3G,
+        ),
+      ),
+    );
+  }
 
   buildBody() {
     return SingleChildScrollView(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: SingleChildScrollView(
-              scrollDirection: Axis.vertical,
-              physics: const BouncingScrollPhysics(),
-              child: Column(
-                children: [
-                  buildDataTable(),
-                ],
-              ),
-            ),
-          ),
-        ],
+      physics: BouncingScrollPhysics(),
+      scrollDirection: Axis.horizontal,
+      child: SingleChildScrollView(
+        scrollDirection: Axis.vertical,
+        physics: const BouncingScrollPhysics(),
+        child: Column(
+          children: [
+            buildDataTable(),
+          ],
+        ),
       ),
     );
   }
@@ -116,9 +134,9 @@ class _ReportPageState extends State<ReportPage> {
       'Asset Name',
       'Asset Qty',
       'Asset PrDate',
-      // 'Asset Desc',
-      // 'Asset Cat',
-      // 'Asset Condition',
+      'Asset Condition',
+      'Asset Pincode',
+      'Asset Address',
       // 'Asset Ward'
       // 'Asset Remarks', //9
     ];
@@ -130,7 +148,7 @@ class _ReportPageState extends State<ReportPage> {
         sortAscending: false,
         columns: getColumns(columns),
         rows: getRows(
-          reportResp!.data!.reports,
+          reportRespS!.data!.reports,
         ),
       ),
     );
@@ -148,24 +166,26 @@ class _ReportPageState extends State<ReportPage> {
           ))
       .toList();
 
-  List<DataRow> getRows(List<Reports>? reports) =>
-      reports!.map((Reports reports) {
+  List<DataRow> getRows(List<Reportss>? reportss) =>
+      reportss!.map((Reportss reportss) {
         final cells = [
-          reports.id,
-          reports.astName,
-          reports.astQty,
-          reports.astPrDate,
+          reportss.id,
+          reportss.astName,
+          reportss.astQty,
+          reportss.astPrDate,
+          reportss.astCondition,
+          reportss.astPincode,
+          reportss.astAddress,
           // reports.astDesc,
           // reports.astCat,
-          // reports.astCondition,
           // reports.astWard,
           // reports.astRemarks,
         ];
 
-        return DataRow(cells: getCells(cells, reports));
+        return DataRow(cells: getCells(cells, reportss));
       }).toList();
 
-  List<DataCell> getCells(List<dynamic> cells, reports) => cells
+  List<DataCell> getCells(List<dynamic> cells, reportss) => cells
       .map((data) => DataCell(
               Container(
                 alignment: Alignment.center,
@@ -174,7 +194,7 @@ class _ReportPageState extends State<ReportPage> {
                   style: tts3B,
                 ),
               ), onTap: () {
-            if ("$data" == reports!.id) {
+            if ("$data" == reportss!.id) {
               _reportDetaile('$data');
             } else {
               showFlutterTost('click on SlNo');
@@ -183,7 +203,7 @@ class _ReportPageState extends State<ReportPage> {
       .toList();
 
   _reportDetaile(String repId) {
-    return Navigator.pushNamed(context, 'MovreportId', arguments: repId);
+    return Navigator.pushNamed(context, 'IMmovreportId', arguments: repId);
   }
 
   // @override

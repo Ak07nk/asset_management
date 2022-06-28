@@ -1,10 +1,15 @@
+import 'dart:convert';
+import 'dart:developer';
+
+import 'package:asset_management/API_FILES/MODEL_CLASSES/profile_model.dart';
+import 'package:asset_management/API_FILES/api_calls.dart';
 import 'package:asset_management/STATELESS_WIDGET/text_button.dart';
 import 'package:asset_management/UTILS/color_const.dart';
 import 'package:asset_management/UTILS/text_style_const.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../UTILS/text_const.dart';
+import '../../../UTILS/text_const.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key}) : super(key: key);
@@ -14,34 +19,53 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  String? userIds;
-  String? userNamees;
-  String? userLastNamees;
-  String? userEmailIds;
-  String? userNum;
+  // String? userIds;
+  // String? userNamees;
+  // String? userLastNamees;
+  // String? userEmailIds;
+  // String? userNum;
+  ProfileResp? getProfile;
   @override
   void initState() {
-    getSharedPreferences();
+    // getSharedPreferences();
+    getProfileDetail();
     super.initState();
   }
 
-  Future getSharedPreferences() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    setState(() {
-      userIds = prefs.getString("Uid");
-      userNamees = prefs.getString("UFname");
-      userLastNamees = prefs.getString("ULname");
-      userEmailIds = prefs.getString("UEmailId");
-      userNum = prefs.getString("UEMobile");
+  getProfileDetail() {
+    apiServices.getProfile().then((value) {
+      try {
+        if (value != null) {
+          setState(() {
+            getProfile = value;
+          });
+        }
+      } catch (e) {
+        if (value == null) {
+          print('NO data');
+        }
+      }
+      log(json.encode(getProfile.toString()));
     });
   }
+
+  // Future getSharedPreferences() async {
+  //   SharedPreferences prefs = await SharedPreferences.getInstance();
+  //   setState(() {
+  //     userIds = prefs.getString("Uid");
+  //     userNamees = prefs.getString("UFname");
+  //     userLastNamees = prefs.getString("ULname");
+  //     userEmailIds = prefs.getString("UEmailId");
+  //     userNum = prefs.getString("UEMobile");
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
         appBar: buildAppbar(),
-        body: userIds == null
+        body: getProfile == null
             ? Center(child: CircularProgressIndicator())
             : buildBody(),
       ),
@@ -62,13 +86,13 @@ class _ProfilePageState extends State<ProfilePage> {
       centerTitle: false,
       shadowColor: appColorW,
       actions: [
-        // IconButton(
-        //     onPressed: () {},
-        //     icon: Icon(
-        //       Icons.more_vert_rounded,
-        //       size: 22,
-        //       color: appColorG,
-        //     ))
+        IconButton(
+            onPressed: () {},
+            icon: Icon(
+              Icons.edit,
+              size: 22,
+              color: appColorG,
+            ))
       ],
     );
   }
@@ -118,7 +142,7 @@ class _ProfilePageState extends State<ProfilePage> {
             ),
             dense: true,
             subtitle: Text(
-              userNamees! + " " + userLastNamees!,
+              getProfile!.firstName! + " " + getProfile!.lastName!,
               style: tts4B,
             ),
           ),
@@ -132,7 +156,7 @@ class _ProfilePageState extends State<ProfilePage> {
             ),
             dense: true,
             subtitle: Text(
-              userNum!,
+              getProfile!.phone!,
               style: tts4B,
             ),
           ),
@@ -141,12 +165,12 @@ class _ProfilePageState extends State<ProfilePage> {
           elevation: 3,
           child: ListTile(
             title: Text(
-              "Login Id",
+              "Email Id",
               style: tts2G,
             ),
             dense: true,
             subtitle: Text(
-              userEmailIds!,
+              getProfile!.email!,
               style: tts4B,
             ),
           ),

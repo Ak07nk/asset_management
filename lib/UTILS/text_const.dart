@@ -5,7 +5,10 @@ const developedby = "Developed By ....";
 //************************************************loginScreenText */
 const welcom1 = "Welcome To ";
 const welcom2 = " Asset Management";
-const pLZ = " Please login Your Account";
+const pLZ = " Please Login Your Account";
+//************************************************loginScreenText */
+
+const pLZreg = " Please Register Your Account";
 //************************************************HomeScreenText */
 const dashboard = "Dashboard";
 const hello = "Hello..!";

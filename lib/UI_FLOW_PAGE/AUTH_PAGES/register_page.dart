@@ -1,3 +1,6 @@
+import 'package:asset_management/API_FILES/MODEL_CLASSES/register_model.dart';
+import 'package:flutter/material.dart';
+
 import 'package:asset_management/UTILS/color_const.dart';
 import 'package:asset_management/UTILS/text_style_const.dart';
 import 'package:flutter/material.dart';
@@ -11,15 +14,20 @@ import '../../STATELESS_WIDGET/text_button.dart';
 import '../../UTILS/appp_image_const.dart';
 import '../../UTILS/text_const.dart';
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({Key? key}) : super(key: key);
+class RegisterPage extends StatefulWidget {
+  const RegisterPage({Key? key}) : super(key: key);
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  State<RegisterPage> createState() => _RegisterPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
-  TextEditingController loginCTR = TextEditingController();
+class _RegisterPageState extends State<RegisterPage> {
+  TextEditingController firstCTR = TextEditingController();
+  TextEditingController lastCTR = TextEditingController();
+  TextEditingController emailCTR = TextEditingController();
+  TextEditingController phNoCTR = TextEditingController();
+  TextEditingController roleCTR = TextEditingController();
+  TextEditingController regidCTR = TextEditingController();
   TextEditingController _passCTR = TextEditingController();
 
   bool _obscureText = true;
@@ -114,12 +122,12 @@ class _LoginPageState extends State<LoginPage> {
 
   loginTIT() {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 2),
+      padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
       child: Container(
         // color: Colors.black,
         alignment: Alignment.center,
         child: Text(
-          pLZ,
+          pLZreg,
           style: tts3B,
         ),
       ),
@@ -128,24 +136,83 @@ class _LoginPageState extends State<LoginPage> {
 
   loginAcc() {
     return Container(
-      alignment: Alignment.center,
       // color: appColorB,
-      height: 180,
+
       width: MediaQuery.of(context).size.width,
       child: Column(
         children: [
           CustomTextField(
-            "Login Id",
-            'AZ12345',
+            "First Name",
+            'AZ',
             Icon(
-              Icons.person,
+              Icons.account_box,
               size: 25,
               color: appColorG,
             ),
-            loginCTR,
+            firstCTR,
             TextInputType.emailAddress,
             false,
           ),
+          CustomTextField(
+            "Last Name",
+            'AZ',
+            Icon(
+              Icons.account_box,
+              size: 25,
+              color: appColorG,
+            ),
+            lastCTR,
+            TextInputType.emailAddress,
+            false,
+          ),
+          CustomTextField(
+            "Email id",
+            'AZ@domain.com',
+            Icon(
+              Icons.mail,
+              size: 25,
+              color: appColorG,
+            ),
+            emailCTR,
+            TextInputType.emailAddress,
+            false,
+            //
+          ),
+          CustomTextField(
+            "Phone No",
+            '9876543210',
+            Icon(
+              Icons.phone,
+              size: 25,
+              color: appColorG,
+            ),
+            phNoCTR,
+            TextInputType.number,
+            false,
+          ),
+          // CustomTextField(
+          //   "Role",
+          //   '12345',
+          //   Icon(
+          //     Icons.person_pin,
+          //     size: 25,
+          //     color: appColorG,
+          //   ),
+          //   roleCTR,
+          //   TextInputType.number,
+          //   false,
+          // ),
+          // CustomTextField(
+          //   "Reg Id",
+          //   'AZ12345',
+          //   Icon(
+          //     Icons.person,
+          //     size: 25,
+          //     color: appColorG,
+          //   ),
+          //   regidCTR,
+          //   false,
+          // ),
           CustomTextField(
             "Password",
             '•••••••••',
@@ -173,31 +240,48 @@ class _LoginPageState extends State<LoginPage> {
       children: [
         InkWell(
           onTap: () {
-            LoginRequest loginRequest = LoginRequest(
-              xAPIKEY: "PTAX@123",
-              email: loginCTR.value.text,
+            RegisterReq registerReq = RegisterReq(
+              firstName: firstCTR.value.text,
+              lastName: lastCTR.value.text,
+              phone: phNoCTR.value.text,
+              role: roleCTR.value.text,
+              email: emailCTR.value.text,
               password: _passCTR.value.text,
             );
-            if (loginRequest.email!.isEmpty) {
+            if (registerReq.email!.isEmpty) {
               showFlutterTost(
                 'Enter Your Email',
               );
-            }
-            //  else if (!loginRequest.email!.contains('@')) {
-            //   showFlutterTost(
-            //     'Enter The Valid Email',
-            //   );
-            // }
-            else if (loginRequest.password!.isEmpty) {
+            } else if (!registerReq.email!.contains('@'))
+              showFlutterTost(
+                'Enter The Valid Email',
+              );
+            else if (!registerReq.email!.contains('.com'))
+              showFlutterTost(
+                'Enter The Valid Email',
+              );
+            else if (registerReq.phone!.length < 10)
+              showFlutterTost(
+                'Enter The Valid Phone Number',
+              );
+            else if (registerReq.phone!.length > 10)
+              showFlutterTost(
+                'Enter The Valid Phone Number',
+              );
+            else if (registerReq.password!.isEmpty) {
               showFlutterTost(
                 'Enter Your Password',
               );
+            } else if (registerReq.password!.length < 4) {
+              showFlutterTost(
+                'Enter Your Password Atleast 8 Character',
+              );
             } else {
-              loginprocess(loginRequest);
+              registerprocess(registerReq);
             }
           },
           child: CusTextButton(
-            'LogIn',
+            'Register',
           ),
         ),
         Padding(
@@ -206,15 +290,18 @@ class _LoginPageState extends State<LoginPage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                'Don\'t Have an Account.?',
+                'Already have an account.?',
                 style: tts3B,
               ),
               InkWell(
                 onTap: () {
-                  Navigator.pushNamed(context, 'RegisterPage');
+                  Navigator.pushNamedAndRemoveUntil(
+                      context, 'LoginPage', (route) => false);
+                  // Navigator.pushAndRemoveUntil(
+                  //     context, newRoute, (route) => false);
                 },
                 child: Text(
-                  ' • Register Now • ',
+                  ' • Login Now •',
                   style: tts3G,
                 ),
               ),
@@ -225,22 +312,12 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  loginprocess(LoginRequest loginRequest) {
-    apiServices.login(loginRequest).then((value) async {
+  registerprocess(RegisterReq registerReq) {
+    apiServices.register(registerReq).then((value) async {
       if (value['status'] == true) {
-        SharedPreferences? prefs = await SharedPreferences.getInstance();
-        prefs.setString(userId, value['data']['id']);
-        prefs.setString(userNamee, value['data']['first_name']);
-        prefs.setString(userLastNamee, value['data']['last_name']);
-        prefs.setString(userEmailId, value['data']['email']);
-        prefs.setString(userNum, value['data']['phone']);
-        debugPrint("userId:::>" + userId);
-        debugPrint("userName:::>" + userNamee);
-        debugPrint("userEmail:::>" + userEmailId);
-        debugPrint("userMobile:::>" + userNum);
-        showFlutterTost('Congratulations You Have Successfully LogIn');
+        showFlutterTost('Congratulations You Have Successfully Register');
         Navigator.pushNamedAndRemoveUntil(
-            context, 'HomePage', (route) => false);
+            context, 'LoginPage', (route) => false);
       }
     });
   }

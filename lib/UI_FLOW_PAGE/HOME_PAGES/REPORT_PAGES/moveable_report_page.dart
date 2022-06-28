@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:developer';
-import 'package:asset_management/API_FILES/MODEL_CLASSES/immoveable_report_model.dart';
 import 'package:asset_management/API_FILES/MODEL_CLASSES/report_model.dart';
 import 'package:asset_management/API_FILES/api_calls.dart';
 import 'package:asset_management/STATELESS_WIDGET/flutter_tost.dart';
@@ -9,44 +8,52 @@ import 'package:asset_management/UTILS/text_const.dart';
 import 'package:asset_management/UTILS/text_style_const.dart';
 import 'package:flutter/material.dart';
 
-class ImMoveableReport extends StatefulWidget {
-  const ImMoveableReport({Key? key}) : super(key: key);
+class ReportPage extends StatefulWidget {
+  const ReportPage({Key? key}) : super(key: key);
 
   @override
-  _ImMoveableReportState createState() => _ImMoveableReportState();
+  _ReportPageState createState() => _ReportPageState();
 }
 
-class _ImMoveableReportState extends State<ImMoveableReport> {
-  int? sortColumnIndex;
-  bool isAscending = true;
-  ImMoveableReportResponse? reportRespS;
-
+class _ReportPageState extends State<ReportPage> {
   void initstate() {
     super.initState();
     getReportData();
   }
 
+  int? sortColumnIndex;
+  bool isAscending = true;
+  ReportResponse? reportResp;
+
   getReportData() async {
-    apiServices.immovablereports().then((value) {
-      setState(() {
-        reportRespS = value;
-      });
-      log(json.encode(reportRespS.toString()));
+    apiServices.reports().then((value) {
+      try {
+        if (value != null) {
+          setState(() {
+            reportResp = value;
+          });
+        }
+      } catch (e) {
+        if (value == null) {
+          print('NO data');
+        }
+      }
+      log(json.encode(reportResp.toString()));
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    if (reportRespS == null) {
+    if (reportResp == null) {
       getReportData();
     }
     return SafeArea(
       child: Scaffold(
         appBar: buildAppbar(),
-        body: reportRespS == null
+        body: reportResp == null
             ? const Center(child: CircularProgressIndicator())
             : buildBody(),
-        // bottomNavigationBar: bNB(),
+        bottomNavigationBar: note(),
       ),
     );
   }
@@ -63,15 +70,15 @@ class _ImMoveableReportState extends State<ImMoveableReport> {
       titleSpacing: 15,
       centerTitle: false,
       shadowColor: appColorW,
-      actions: [
-        // IconButton(
-        //     onPressed: () {},
-        //     icon: Icon(
-        //       Icons.more_vert_rounded,
-        //       size: 22,
-        //       color: appColorG,
-        //     ))
-      ],
+      // actions: [
+      //   IconButton(
+      //       onPressed: () {},
+      //       icon: Icon(
+      //         Icons.more_vert_rounded,
+      //         size: 22,
+      //         color: appColorG,
+      //       ))
+      // ],
     );
   }
 
@@ -88,25 +95,33 @@ class _ImMoveableReportState extends State<ImMoveableReport> {
   //     },
   //   );
   // }
+  note() {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Container(
+        height: 25,
+        alignment: Alignment.center,
+        width: MediaQuery.of(context).size.width,
+        child: Text(
+          '• Click on SlNO to view the Individual Report In Detail •',
+          style: tts3G,
+        ),
+      ),
+    );
+  }
 
   buildBody() {
     return SingleChildScrollView(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: SingleChildScrollView(
-              scrollDirection: Axis.vertical,
-              physics: const BouncingScrollPhysics(),
-              child: Column(
-                children: [
-                  buildDataTable(),
-                ],
-              ),
-            ),
-          ),
-        ],
+      physics: BouncingScrollPhysics(),
+      scrollDirection: Axis.horizontal,
+      child: SingleChildScrollView(
+        scrollDirection: Axis.vertical,
+        physics: const BouncingScrollPhysics(),
+        child: Column(
+          children: [
+            buildDataTable(),
+          ],
+        ),
       ),
     );
   }
@@ -117,9 +132,9 @@ class _ImMoveableReportState extends State<ImMoveableReport> {
       'Asset Name',
       'Asset Qty',
       'Asset PrDate',
-      'Asset Condition',
-      'Asset Pincode',
-      'Asset Address',
+      // 'Asset Desc',
+      // 'Asset Cat',
+      // 'Asset Condition',
       // 'Asset Ward'
       // 'Asset Remarks', //9
     ];
@@ -131,7 +146,7 @@ class _ImMoveableReportState extends State<ImMoveableReport> {
         sortAscending: false,
         columns: getColumns(columns),
         rows: getRows(
-          reportRespS!.data!.reports,
+          reportResp!.data!.reports,
         ),
       ),
     );
@@ -149,26 +164,24 @@ class _ImMoveableReportState extends State<ImMoveableReport> {
           ))
       .toList();
 
-  List<DataRow> getRows(List<Reportss>? reportss) =>
-      reportss!.map((Reportss reportss) {
+  List<DataRow> getRows(List<Reports>? reports) =>
+      reports!.map((Reports reports) {
         final cells = [
-          reportss.id,
-          reportss.astName,
-          reportss.astQty,
-          reportss.astPrDate,
-          reportss.astCondition,
-          reportss.astPincode,
-          reportss.astAddress,
+          reports.id,
+          reports.astName,
+          reports.astQty,
+          reports.astPrDate,
           // reports.astDesc,
           // reports.astCat,
+          // reports.astCondition,
           // reports.astWard,
           // reports.astRemarks,
         ];
 
-        return DataRow(cells: getCells(cells, reportss));
+        return DataRow(cells: getCells(cells, reports));
       }).toList();
 
-  List<DataCell> getCells(List<dynamic> cells, reportss) => cells
+  List<DataCell> getCells(List<dynamic> cells, reports) => cells
       .map((data) => DataCell(
               Container(
                 alignment: Alignment.center,
@@ -177,7 +190,7 @@ class _ImMoveableReportState extends State<ImMoveableReport> {
                   style: tts3B,
                 ),
               ), onTap: () {
-            if ("$data" == reportss!.id) {
+            if ("$data" == reports!.id) {
               _reportDetaile('$data');
             } else {
               showFlutterTost('click on SlNo');
@@ -186,7 +199,7 @@ class _ImMoveableReportState extends State<ImMoveableReport> {
       .toList();
 
   _reportDetaile(String repId) {
-    return Navigator.pushNamed(context, 'IMmovreportId', arguments: repId);
+    return Navigator.pushNamed(context, 'MovreportId', arguments: repId);
   }
 
   // @override
