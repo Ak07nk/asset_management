@@ -29,3 +29,6 @@ const proFile = 'Profile';
 const reports = 'Reports';
 //******************************************************ImMovreportIdScreen***************************/
 const imrepid = "Asset Id Detail";
+//******************************************************ImMovreportIdScreen***************************/
+
+const forgotPass = 'Forgot Password';

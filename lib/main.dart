@@ -1,3 +1,4 @@
+import 'package:asset_management/UI_FLOW_PAGE/AUTH_PAGES/forgot_password_page.dart';
 import 'package:asset_management/UI_FLOW_PAGE/AUTH_PAGES/register_page.dart';
 import 'package:asset_management/UI_FLOW_PAGE/HOME_PAGES/INSERT_ASSET_PAGES/construction_asset_insert.dart';
 import 'package:asset_management/UI_FLOW_PAGE/HOME_PAGES/REPORT_ID_PAGE/construction_id.dart';
@@ -33,6 +34,7 @@ class MyApp extends StatelessWidget {
       routes: {
         'SplashScreen': (context) => const SplashScreen(),
         'LoginPage': (context) => const LoginPage(),
+        'ForgotPassword': (context) => const ForgotPassword(),
         'RegisterPage': (context) => const RegisterPage(),
         'HomePage': (context) => const HomePage(),
         'MovableAssertInsert': (context) => const MovableAssertInsert(),

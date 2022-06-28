@@ -162,6 +162,26 @@ class _LoginPageState extends State<LoginPage> {
             _passCTR,
             TextInputType.emailAddress,
             _obscureText,
+          ),
+          Container(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  'Forgot Password...?  ',
+                  style: tts2B,
+                ),
+                InkWell(
+                  onTap: () {
+                    Navigator.pushNamed(context, 'ForgotPassword');
+                  },
+                  child: Text(
+                    '• Click Here •',
+                    style: tts2G,
+                  ),
+                ),
+              ],
+            ),
           )
         ],
       ),
