@@ -19,12 +19,17 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+  var fnamectr = TextEditingController();
+  var lnamecrt = TextEditingController();
+  var phonecrt = TextEditingController();
+  var emailcrt = TextEditingController();
   // String? userIds;
   // String? userNamees;
   // String? userLastNamees;
   // String? userEmailIds;
   // String? userNum;
   ProfileResp? getProfile;
+  bool readOnlyy = true;
   @override
   void initState() {
     // getSharedPreferences();
@@ -133,48 +138,102 @@ class _ProfilePageState extends State<ProfilePage> {
   profileList() {
     return Column(
       children: [
-        Card(
-          elevation: 3,
-          child: ListTile(
-            title: Text(
-              "Name",
-              style: tts2G,
+        Padding(
+          padding: const EdgeInsets.all(5.0),
+          child: Card(
+              child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: TextFormField(
+              initialValue: getProfile!.firstName!,
+              style: tts5B,
+              readOnly: true,
+              // controller: fnamectr,
+              decoration: InputDecoration(
+                  hintText: 'azaz',
+                  disabledBorder: InputBorder.none,
+                  focusedBorder: InputBorder.none,
+                  enabledBorder: InputBorder.none,
+                  errorBorder: InputBorder.none,
+                  label: Text(
+                    'First Name',
+                    style: tts3G,
+                  ),
+                  contentPadding: EdgeInsets.all(2)),
             ),
-            dense: true,
-            subtitle: Text(
-              getProfile!.firstName! + " " + getProfile!.lastName!,
-              style: tts4B,
-            ),
-          ),
+          )),
         ),
-        Card(
-          elevation: 3,
-          child: ListTile(
-            title: Text(
-              "Mobile No",
-              style: tts2G,
+        Padding(
+          padding: const EdgeInsets.all(5.0),
+          child: Card(
+              child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: TextFormField(
+              initialValue: getProfile!.lastName!,
+              style: tts5B,
+              // controller: lnamecrt,
+              readOnly: true,
+              decoration: InputDecoration(
+                  hintText: 'azaz',
+                  disabledBorder: InputBorder.none,
+                  focusedBorder: InputBorder.none,
+                  enabledBorder: InputBorder.none,
+                  errorBorder: InputBorder.none,
+                  label: Text(
+                    'Last Name',
+                    style: tts3G,
+                  ),
+                  contentPadding: EdgeInsets.all(2)),
             ),
-            dense: true,
-            subtitle: Text(
-              getProfile!.phone!,
-              style: tts4B,
-            ),
-          ),
+          )),
         ),
-        Card(
-          elevation: 3,
-          child: ListTile(
-            title: Text(
-              "Email Id",
-              style: tts2G,
+        Padding(
+          padding: const EdgeInsets.all(5.0),
+          child: Card(
+              child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: TextFormField(
+              initialValue: getProfile!.phone!,
+              style: tts5B,
+              // controller: phonecrt,
+              readOnly: true,
+              decoration: InputDecoration(
+                  hintText: 'azaz',
+                  disabledBorder: InputBorder.none,
+                  focusedBorder: InputBorder.none,
+                  enabledBorder: InputBorder.none,
+                  errorBorder: InputBorder.none,
+                  label: Text(
+                    'Mobile No',
+                    style: tts3G,
+                  ),
+                  contentPadding: EdgeInsets.all(2)),
             ),
-            dense: true,
-            subtitle: Text(
-              getProfile!.email!,
-              style: tts4B,
+          )),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(5.0),
+          child: Card(
+              child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: TextFormField(
+              initialValue: getProfile!.email!,
+              style: tts5B,
+              // controller: emailcrt,
+              readOnly: true,
+              decoration: InputDecoration(
+                  hintText: 'azaz',
+                  disabledBorder: InputBorder.none,
+                  focusedBorder: InputBorder.none,
+                  enabledBorder: InputBorder.none,
+                  errorBorder: InputBorder.none,
+                  label: Text(
+                    'Email id',
+                    style: tts3G,
+                  ),
+                  contentPadding: EdgeInsets.all(2)),
             ),
-          ),
-        )
+          )),
+        ),
       ],
     );
   }
