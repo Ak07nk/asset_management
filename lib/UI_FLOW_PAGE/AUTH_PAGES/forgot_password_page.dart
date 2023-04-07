@@ -81,7 +81,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
             padding: const EdgeInsets.all(8.0),
             child: Container(
                 child: Text(
-              'Please Enter the Email to verify your Account',
+              'Please Enter the Email to verify your Accounts',
               style: tts2G,
             )),
           ),
